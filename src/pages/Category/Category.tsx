@@ -59,10 +59,16 @@ const Category = () => {
     }, []);
 
     const onSubmit = async (data: Categories) => {
+      
         const sendData = {
             name: data.name
         }
         try {
+            const alreadyExists = categories.some(category => category.name.toLowerCase() === data.name.toLowerCase());
+            if (alreadyExists) {
+                setSuccessMessage("Category already exists! Please choose a different name.");
+                return;
+            }
             const response = await axios.post("http://localhost:3000/api/categories", sendData);
             setSuccessMessage("Category created successfully!");
             reset();
@@ -94,6 +100,8 @@ const Category = () => {
     }
 
     const handleDeleteCategory = async (id: string) => {
+        const confirmDelete = window.confirm("Are you sure you want to delete this category?");
+        if (!confirmDelete) return;
         try {
             await axios.delete(`http://localhost:3000/api/categories/${id}`);
             const res = await axios.get("http://localhost:3000/api/categories");

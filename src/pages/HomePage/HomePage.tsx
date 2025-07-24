@@ -7,6 +7,15 @@ const Sections = [
         title: 'Categories',
         link: "/categories"
     },
+    {
+        title: 'Colors',
+        link: "/colors"
+    },
+    {
+        title: 'Products',
+        link: "/products"
+    },
+
 ];
 
 export const HomePage = () => {

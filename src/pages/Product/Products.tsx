@@ -6,6 +6,7 @@ import { useForm, useFieldArray } from "react-hook-form";
 import { joiResolver } from "@hookform/resolvers/joi";
 import Joi from "joi";
 import { useNavigate } from "react-router";
+import { Card } from "../HomePage/components/Card";
 
 type Category = {
     _id?: string;
@@ -62,6 +63,17 @@ const validationsSchema = Joi.object({
     "any.required": "Variants are required ⚠️",
   })
 })
+
+const Sections = [
+      {
+        title: 'Colors',
+        link: "/colors"
+    },
+    {
+        title: 'Categories',
+        link: "/categories"
+    },
+]
 
 const Products = () => {
     const navigate = useNavigate();
@@ -225,10 +237,23 @@ const Products = () => {
       navigate(`/product-edit/${id}`);
     }
 
+       const searchProductByName = async (name: string) => {
+          try {
+              const response = await axios.get(`http://localhost:3000/api/products/search?name=${name}`);
+              setProducts(response.data.data);
+          } catch (error) {
+              console.error("Error searching product:", error);
+          }
+        }
+
     return (
     <div className={styles.container}>
       <h1>Products</h1>
-
+         <div className={styles.container}>
+                {Sections.map((section) => (
+                    <Card title={section.title} link={section.link}/>
+                ))}
+            </div>
       <form onSubmit={handleSubmit(onSubmit)} className={styles.form}>
         <input type="text" placeholder="Name" {...register("name")} />
         {errors.name && <span className={styles.error}>{errors.name.message}</span>}
@@ -284,6 +309,12 @@ const Products = () => {
   <p>Error: {error.message}</p>
 ) : (
   <ul className={styles.productList}>
+       <input
+        type="text"
+        placeholder="Search by product name"
+        onChange={(e) => searchProductByName(e.target.value)}
+        className={styles.searchInput}
+      />
     {Object.keys(groupedProducts).map((categoryName) => (
       <li key={categoryName}>
         <h2>{categoryName}</h2>

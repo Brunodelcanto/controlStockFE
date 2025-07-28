@@ -23,6 +23,7 @@ type Products = {
    name: string;
    price: number;
    variants: {
+       _id?: string; // Permitir _id opcional en variants
        color: string;
        amount: number;
    }[];
@@ -47,6 +48,7 @@ const validationsSchema = Joi.object({
   }),
   variants: Joi.array().items(
     Joi.object({
+      _id: Joi.string().optional(), // Permitir _id opcional
       color: Joi.string().required().messages({
         "string.empty": "Color is required ⚠️",
         "any.required": "Color is required ⚠️",
@@ -67,6 +69,7 @@ const EditProduct = () => {
     const navigate = useNavigate();
     const { id } = useParams<{ id: string }>();
     const [successMessage, setSuccessMessage] = useState("");
+    const [errorMessage, setErrorMessage] = useState("");
     const [categories, setCategories] = useState<Category[]>([]);
     const [colors, setColors] = useState<Color[]>([]);
 
@@ -98,18 +101,42 @@ const EditProduct = () => {
                 console.error("Error fetching product:", error);
             }
         };
-        fetchProduct();
+        if (id) {
+            fetchProduct();
+        }
     }, [id, setValue]);
 
     const handleUpdate = async (data: Products) => {
         try {
-            await axios.patch(`http://localhost:3000/api/products/${id}`, {
+            // Limpiar mensajes previos
+            setSuccessMessage("");
+            setErrorMessage("");
+            
+            // Convertir price a número y amounts de variants a números
+            const processedData = {
                 ...data,
-            });
+                price: Number(data.price),
+                variants: data.variants.map(variant => ({
+                    ...variant,
+                    amount: Number(variant.amount)
+                }))
+            };
+            
+            await axios.patch(`http://localhost:3000/api/products/${id}`, processedData);
+            
             setSuccessMessage("Product updated successfully!");
             setTimeout(() => { navigate('/products'); }, 1000);
         } catch (error) {
             console.error("Error updating product:", error);
+            if (axios.isAxiosError(error)) {
+                console.error("Response data:", error.response?.data);
+                console.error("Response status:", error.response?.status);
+                setErrorMessage(error.response?.data?.message || "Error updating product");
+            } else {
+                setErrorMessage("Unexpected error occurred");
+            }
+            // Limpiar mensaje de error después de 5 segundos
+            setTimeout(() => setErrorMessage(""), 5000);
         }
     }
 
@@ -145,6 +172,7 @@ const EditProduct = () => {
     <div className={styles.container}>
         <h1>Edit Product</h1>
         {successMessage && <p className={styles.successMessage}>{successMessage}</p>}
+        {errorMessage && <p className={styles.error}>{errorMessage}</p>}
         <form onSubmit={handleSubmit(handleUpdate)} className={styles.form}>
             <div className={styles.formGroup}>
                 <label htmlFor="name">Name</label>
@@ -206,7 +234,9 @@ const EditProduct = () => {
           Add Variant
         </button>
       </div>
-      <button type="submit" className={styles.submitButton}>Update Product</button>
+      <button type="submit" className={styles.submitButton}>
+        Update Product
+      </button>
     </form>
     <button onClick={goBack}>Go Back</button>
   </div>

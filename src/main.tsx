@@ -12,6 +12,7 @@ import Color from './pages/Color/Color.tsx'
 import EditColor from './pages/Color/Components/EditColor.tsx'
 import Products from './pages/Product/Products.tsx'
 import EditProduct from './pages/Product/Components/EditProduct.tsx'
+import "./styles/global.css"
 
 const router = createBrowserRouter([
   {

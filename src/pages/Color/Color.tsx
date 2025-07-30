@@ -1,11 +1,11 @@
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 import styles from './Color.module.css';
-import { HomeButton } from '../../components/HomeButton';
 import { useForm } from 'react-hook-form';
 import { joiResolver } from '@hookform/resolvers/joi';
 import Joi from 'joi';
 import { useNavigate } from 'react-router';
+import { IoIosColorPalette } from "react-icons/io";
 
 type Color = {
     _id?: string;
@@ -28,6 +28,7 @@ const Color = () => {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<Error | null>(null);
     const [successMessage, setSuccessMessage] = useState("");
+    const [errorMessage, setErrorMessage] = useState("");
 
         const {
             register,
@@ -65,11 +66,16 @@ const Color = () => {
             try {
                 const alreadyExists = colors.some(color => color.name.toLowerCase() === data.name.toLowerCase());
                 if (alreadyExists) {
-                    setSuccessMessage("Color already exists! Please choose a different name.");
+                    setErrorMessage("Color already exists! Please choose a different name.");
+                    setTimeout(() => setErrorMessage(""), 2000);
                     return;
                 }
                 const response = await axios.post("http://localhost:3000/api/colors", sendData);
                 setSuccessMessage("Color created successfully!");
+                setTimeout(() => {
+                    setSuccessMessage("");
+                    fetchColors();
+                }, 2000);
                 reset();
                 setColors(prev => [...prev, response.data.data]);
                 console.log(response.data);
@@ -115,18 +121,26 @@ const Color = () => {
         navigate(`/color-edit/${id}`)
     }
 
+     const goBack = () => {
+        navigate('/products');
+    }
+
         return (
-        <div>
-            <h1>Colors Page</h1>
-            <p>This is the colors page where you can view all product colors.</p>
+        <div className={styles.container}>
+            <h1 className={styles.title}><IoIosColorPalette className={styles.icon} />Colors Page</h1>
+            <p className={styles.description}>This is the colors page where you can view all product colors.</p>
             {loading && <p>Loading colors...</p>}
             {error && <p>{error.message}</p>}
             <div className={styles.formContainer}>
             {successMessage && <p className={styles.success}>{successMessage}</p>}
-                <form onSubmit={handleSubmit(onSubmit)}>
-                    <input type="text" {...register("name")} placeholder="Color Name" />
+            {errorMessage && <p className={styles.error}>{errorMessage}</p>}
+                <form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
+                    <input className={styles.input} type="text" {...register("name")} placeholder="Color Name" />
                     {errors.name && <span className={styles.error}>{errors.name.message}</span>}
-                    <button type="submit">Create Color</button>
+                    <div className={styles.buttonGroup}>
+                    <button type="submit" className={styles.submitButton}>Create Color</button>
+                     <button onClick={goBack}>Go Back</button>
+                    </div>
                 </form>
             </div>
             <div className={styles.colorsContainer}>
@@ -145,7 +159,6 @@ const Color = () => {
                 </ul>
             )}
             </div>
-            <HomeButton />
         </div>
     )
 }

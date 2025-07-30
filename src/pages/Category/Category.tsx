@@ -1,11 +1,11 @@
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 import styles from './Category.module.css';
-import { HomeButton } from '../../components/HomeButton';
 import { useForm } from 'react-hook-form';
 import { joiResolver } from '@hookform/resolvers/joi';
 import Joi from 'joi';
 import { useNavigate } from 'react-router';
+import { HiClipboard } from "react-icons/hi";
 
 type Categories = {
     _id?: string;
@@ -28,6 +28,7 @@ const Category = () => {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<Error | null>(null);
     const [successMessage, setSuccessMessage] = useState("");
+    const [errorMessage, setErrorMessage] = useState("");
 
     const {
         register,
@@ -66,11 +67,13 @@ const Category = () => {
         try {
             const alreadyExists = categories.some(category => category.name.toLowerCase() === data.name.toLowerCase());
             if (alreadyExists) {
-                setSuccessMessage("Category already exists! Please choose a different name.");
+                setErrorMessage("Category already exists! Please choose a different name.");
+                setTimeout(() => setErrorMessage(""), 2000);
                 return;
             }
             const response = await axios.post("http://localhost:3000/api/categories", sendData);
             setSuccessMessage("Category created successfully!");
+            setTimeout(() => setSuccessMessage(""), 2000);
             reset();
             setCategories(prev => [...prev, response.data.data]);
             console.log(response.data);
@@ -115,18 +118,26 @@ const Category = () => {
         navigate(`/category-edit/${id}`)
     }
 
+     const goBack = () => {
+        navigate('/products');
+    }
+
     return (
-        <div>
-            <h1>Categories Page</h1>
-            <p>This is the categories page where you can view all product categories.</p>
+        <div className={styles.container}>
+            <h1 className={styles.title}><HiClipboard className={styles.icon} />Categories Page</h1>
+            <p className={styles.description}>This is the categories page where you can view all product categories.</p>
             {loading && <p>Loading categories...</p>}
             {error && <p>{error.message}</p>}
             <div className={styles.formContainer}>
             {successMessage && <p className={styles.success}>{successMessage}</p>}
-                <form onSubmit={handleSubmit(onSubmit)}>
-                    <input type="text" {...register("name")} placeholder="Category Name" />
+            {errorMessage && <p className={styles.error}>{errorMessage}</p>}
+                <form  className={styles.form} onSubmit={handleSubmit(onSubmit)}>
+                    <input className={styles.input} type="text" {...register("name")} placeholder="Category Name" />
                     {errors.name && <span className={styles.error}>{errors.name.message}</span>}
-                    <button type="submit">Create Category</button>
+                    <div className={styles.buttonGroup}>
+                    <button type="submit" className={styles.submitButton}>Create Category</button>
+                    <button onClick={goBack}>Go Back</button>
+                    </div>
                 </form>
             </div>
             <div className={styles.categoriesContainer}>
@@ -145,7 +156,6 @@ const Category = () => {
                 </ul>
             )}
             </div>
-            <HomeButton />
         </div>
     )
 }

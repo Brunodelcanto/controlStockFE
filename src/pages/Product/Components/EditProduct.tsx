@@ -6,6 +6,7 @@ import styles from './EditProduct.module.css';
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router";
 import { useFieldArray } from "react-hook-form";
+import { MdEdit } from "react-icons/md";
 
 type Category = {
     _id?: string;
@@ -107,12 +108,16 @@ const EditProduct = () => {
     }, [id, setValue]);
 
     const handleUpdate = async (data: Products) => {
-        try {
-            // Limpiar mensajes previos
-            setSuccessMessage("");
-            setErrorMessage("");
-            
-            // Convertir price a número y amounts de variants a números
+      const colorIds = data.variants.map((v) => v.color);
+      const duplicateColors = new Set(colorIds).size !== colorIds.length;
+
+      if (duplicateColors) {
+        setErrorMessage("Color variant must be unique! Please choose different colors.");
+        setTimeout(() => setErrorMessage(""), 2000);
+        return;
+      }
+
+        try {            
             const processedData = {
                 ...data,
                 price: Number(data.price),
@@ -121,7 +126,6 @@ const EditProduct = () => {
                     amount: Number(variant.amount)
                 }))
             };
-            
             await axios.patch(`http://localhost:3000/api/products/${id}`, processedData);
             
             setSuccessMessage("Product updated successfully!");
@@ -131,12 +135,11 @@ const EditProduct = () => {
             if (axios.isAxiosError(error)) {
                 console.error("Response data:", error.response?.data);
                 console.error("Response status:", error.response?.status);
-                setErrorMessage(error.response?.data?.message || "Error updating product");
+                setErrorMessage(error.response?.data?.message || "Product already exists! Please choose a different name.");
             } else {
                 setErrorMessage("Unexpected error occurred");
             }
-            // Limpiar mensaje de error después de 5 segundos
-            setTimeout(() => setErrorMessage(""), 5000);
+            setTimeout(() => setErrorMessage(""), 2000);
         }
     }
 
@@ -170,13 +173,15 @@ const EditProduct = () => {
 
     return (
     <div className={styles.container}>
-        <h1>Edit Product</h1>
+      <main className={styles.main}>
         {successMessage && <p className={styles.successMessage}>{successMessage}</p>}
         {errorMessage && <p className={styles.error}>{errorMessage}</p>}
         <form onSubmit={handleSubmit(handleUpdate)} className={styles.form}>
             <div className={styles.formGroup}>
+              <h1><MdEdit className={styles.icon} />Edit Product</h1>
                 <label htmlFor="name">Name</label>
                 <input
+                    className={styles.input}
                     type="text"
                     id="name"
                     {...register("name")}
@@ -186,6 +191,7 @@ const EditProduct = () => {
             <div className={styles.formGroup}>
                 <label htmlFor="price">Price</label>
                 <input
+                    className={styles.input}
                     type="number"
                     id="price"
                     {...register("price")}
@@ -194,10 +200,10 @@ const EditProduct = () => {
             </div>
             <div className={styles.formGroup}>
                 <label htmlFor="category">Category</label>
-                  <select {...register("category")}>
-          <option value="">Select Category</option>
+                  <select className={styles.input} {...register("category")}>
+          <option className={styles.option} value="">Select Category</option>
           {categories.map((cat) => (
-            <option key={cat._id} value={cat._id}>
+            <option className={styles.option} key={cat._id} value={cat._id}>
               {cat.name}
             </option>
           ))}
@@ -208,10 +214,10 @@ const EditProduct = () => {
                 <label htmlFor="variants">Variants</label>
                  {fields.map((field, index) => (
           <div key={field.id} className={styles.variantRow}>
-            <select {...register(`variants.${index}.color` as const)}>
-              <option value="">Select Color</option>
+            <select className={styles.input} {...register(`variants.${index}.color` as const)}>
+              <option className={styles.option} value="">Select Color</option>
               {colors.map((color) => (
-                <option key={color._id} value={color._id}>
+                <option className={styles.option} key={color._id} value={color._id}>
                   {color.name}
                 </option>
               ))}
@@ -220,25 +226,29 @@ const EditProduct = () => {
               <span className={styles.error}>{errors.variants[index].color.message}</span>
             )}
             <input
+              className={styles.input}
               type="number"
               placeholder="Amount"
               {...register(`variants.${index}.amount` as const)}
             />
             {errors.variants?.[index]?.amount && (<span className={styles.error}>{errors.variants[index].amount.message}</span>)}
-            <button type="button" onClick={() => remove(index)}>
+            <button className={styles.removeButton} type="button" onClick={() => remove(index)}>
               Remove
             </button>
           </div>
         ))}
-        <button type="button" onClick={() => append({ color: "", amount: 0 })}>
+        <div className={styles.buttonGroup}> 
+        <button className={styles.addButton} type="button" onClick={() => append({ color: "", amount: 0 })}>
           Add Variant
         </button>
-      </div>
-      <button type="submit" className={styles.submitButton}>
+      <button className={styles.submitButton} type="submit">
         Update Product
       </button>
-    </form>
     <button onClick={goBack}>Go Back</button>
+      </div>
+        </div>
+    </form>
+      </main>
   </div>
 )
 }

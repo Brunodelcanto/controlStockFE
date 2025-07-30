@@ -3,41 +3,87 @@ import styles from "./Register.module.css";
 import { createUser } from "../../../firebase/auth";
 import { Link, Navigate } from "react-router";
 import { useAuth } from "../../../contexts/authContext";
+import Joi from "joi";
+import { joiResolver } from "@hookform/resolvers/joi";
+import { useForm } from "react-hook-form";
+
+const validationsSchema = Joi.object({
+  email: Joi.string().email({ tlds: { allow: false } }).required().messages({
+    "string.empty": "Email is required ⚠️",
+    "string.email": "Invalid email format ⚠️",
+    "any.required": "Email is required ⚠️"
+  }),
+  password: Joi.string().min(6).required().messages({
+    "string.empty": "Password is required ⚠️",
+    "string.min": "Password must be at least 6 characters long ⚠️",
+    "any.required": "Password is required ⚠️"
+  })
+});
 
 export const Register = () => {
-  const [password, setPassword] = useState("");
-  const [email, setEmail] = useState("");
   const [isRegistering, setIsRegistering] = useState<boolean>(false);
+  const [errorMessage, setErrorMessage] = useState<string>("");
   const auth = useAuth();
 
-  console.log(auth);
+  const {
+    register,
+    handleSubmit,
+    formState: { errors }
+  } = useForm<{ email: string; password: string }>({
+    resolver: joiResolver(validationsSchema),
+    mode: "onBlur"
+  });
 
-  const handleRegister = useCallback(async () => {
+
+  const handleRegister = useCallback(async (data: { email: string; password: string }) => {
     if (!isRegistering) {
       setIsRegistering(true);
-      await createUser(email, password);
+      try {
+        await createUser(data.email, data.password);
+      } catch (error:any) {
+        if (error.code === "auth/email-already-in-use") {
+          setErrorMessage("Email is already in use ⚠️");
+          setTimeout(() => setErrorMessage(""), 2000);
+        } else {
+          setErrorMessage("Error creating user ⚠️");
+        }
+        setTimeout(() => setErrorMessage(""), 2000);
+        setIsRegistering(false);
+      }
     }
-  }, [isRegistering, email, password]);
+  }, [isRegistering]);
 
   if (auth?.userLoggedIn) return <Navigate to="/" />;
 
   return (
     <div className={styles.container}>
-      <h1>Register</h1>
-      <input
-        className={styles.textInput}
-        onBlur={(e) => setEmail(e.target.value)}
-        placeholder="email"
-      />
-      <input
-        className={styles.textInput}
-        onBlur={(e) => setPassword(e.target.value)}
-        placeholder="password"
-      />
-      <button onClick={handleRegister}>Register</button>
-      <div>
-        Already have a user? <Link to="/login">Login</Link>
-      </div>
+      <form onSubmit={handleSubmit(handleRegister)} className={styles.form}>
+        <h1 className={styles.title}>Register</h1>
+
+        <input
+          className={styles.textInput}
+          {...register("email")}
+          placeholder="Email"
+        />
+        {errors.email && <span className={styles.error}>{errors.email.message}</span>}
+
+        <input
+          className={styles.textInput}
+          type="password"
+          {...register("password")}
+          placeholder="Password"
+        />
+        {errors.password && <span className={styles.error}>{errors.password.message}</span>}
+
+        <button type="submit" className={styles.button}>
+          {isRegistering ? "Registrando..." : "Register"}
+        </button>
+        {errorMessage && <span className={styles.error}>{errorMessage}</span>}
+
+        <div className={styles.register}>
+          ¿Already have an account? <Link className={styles.link} to="/login">Login</Link>
+        </div>
+      </form>
     </div>
   );
 };

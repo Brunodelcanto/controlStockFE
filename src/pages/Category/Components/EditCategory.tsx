@@ -5,6 +5,7 @@ import { useForm } from "react-hook-form";
 import { useNavigate, useParams } from "react-router";
 import styles from './EditCategory.module.css';
 import { useEffect, useState } from "react";
+import { MdEdit } from "react-icons/md";
 
 type Category = {
     _id: string;
@@ -24,6 +25,7 @@ const EditCategory = () => {
     const navigate = useNavigate();
     const { id } = useParams<{ id: string }>();
     const [successMessage, setSuccessMessage] = useState("");
+    const [errorMessage, setErrorMessage] = useState("");
     
     const {
         register,
@@ -50,26 +52,45 @@ const EditCategory = () => {
 
     const handleUpdate = async (data: Category) => {
         try {
+            const processedData = {
+                name: data.name
+            }
             await axios.patch(`http://localhost:3000/api/categories/${id}`, {
-                ...data,
+                ...processedData,
             });
             setSuccessMessage("Category updated successfully!");
             setTimeout(() => { navigate('/categories'); }, 1000);
         } catch (error) {
-            console.error("Error updating category:", error);
+            console.error("Error updating color:", error);
+            if (axios.isAxiosError(error)) {
+                console.error("Response data:", error.response?.data);
+                console.error("Response status:", error.response?.status);
+                setErrorMessage(error.response?.data?.message || "Color already exists! Please choose a different name.");
+            } else {
+                setErrorMessage("Unexpected error occurred");
+            }
+            setTimeout(() => setErrorMessage(""), 2000);
         }
+    }
+
+    const goBack = () => {
+        navigate('/categories');
     }
 
     return (
         <div className={styles.container}>
-            {successMessage && <p className={styles.successMessage}>{successMessage}</p>}
             <form onSubmit={handleSubmit(handleUpdate)} className={styles.form}>
-              <h1>Edit Category</h1>
-              <p>Please write your changes below:</p>
-              <label>Name:</label>
+                <h1 className={styles.title}><MdEdit className={styles.icon} />Edit Category</h1>
+              <p className={styles.description}>Please write your changes below:</p>
+              <label className={styles.label}>Name:</label>
               <input className={styles.input} {...register("name")} />
               {errors.name && <p className={styles.error}>{errors.name.message}</p>}
-              <button type="submit" className={styles.saveButton}>Update Category</button>
+            {successMessage && <p className={styles.success}>{successMessage}</p>}
+            {errorMessage && <p className={styles.error}>{errorMessage}</p>}
+            <div className={styles.buttonGroup}>
+              <button type="submit" className={styles.button}>Update Category</button>
+              <button type="button" className={styles.button} onClick={goBack}>Go Back</button>
+            </div>
             </form>
         </div>
     )

@@ -1,0 +1,80 @@
+.container {
+    font-family: 'Montserrat', sans-serif;
+    background-color: #1D1D27;
+    color: #CCA281;
+    min-height: 100vh;
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+}
+
+.main {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.logoContainer {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.logo {
+    width: auto;
+    height: 50px;
+}
+
+.title {
+    font-size: 2rem;
+    font-weight: 700;
+}
+
+.logoutButton {
+       text-decoration: none;
+    color: #cca281;
+    font-size: 1.2rem;
+    font-weight: bold;
+    padding: 0.5rem 1rem;
+    border-radius: 6px;
+    background-color: #2a2a38;
+    transition: background-color 0.3s ease;
+}
+
+.logoutButton:hover {
+    background-color: #5a3622;
+}
+
+.welcomeMessage {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+}
+
+.description {
+    font-size: 1rem;
+    margin-bottom: 2rem;
+    color: #e2c8b2;
+}
+
+.sections {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+    justify-content: center;
+}
+
+.homeIcon {
+    font-size: 5rem;
+    color: #cca281;
+    margin-left: 1rem;
+}

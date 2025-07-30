@@ -7,6 +7,8 @@ import { joiResolver } from "@hookform/resolvers/joi";
 import Joi from "joi";
 import { useNavigate } from "react-router";
 import { Card } from "../HomePage/components/Card";
+import { HiArchive } from "react-icons/hi";
+import { FaSearch } from "react-icons/fa";
 
 type Category = {
     _id?: string;
@@ -83,6 +85,7 @@ const Products = () => {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<Error | null>(null);
     const [successMessage, setSuccessMessage] = useState("");
+    const [errorMessage, setErrorMessage] = useState("");
 
     const {
         register,
@@ -156,18 +159,29 @@ const Products = () => {
     }, []);
 
      const onSubmit = async (data: Products) => {
+      const colorIds = data.variants.map((v) => v.color);
+      const duplicateColors = new Set(colorIds).size !== colorIds.length;
+
+      if (duplicateColors) {
+        setErrorMessage("Color variant must be unique! Please choose different colors.");
+        setTimeout(() => setErrorMessage(""), 2000);
+        return;
+      }
+
     try {
       const alreadyExists = products.some(
         (product) => product.name.toLowerCase() === data.name.toLowerCase()
       );
       if (alreadyExists) {
-        setSuccessMessage("Product already exists! Please choose a different name.");
+        setErrorMessage("Product already exists! Please choose a different name.");
+        setTimeout(() => setErrorMessage(""), 2000);
         return;
       }
         await axios.post("http://localhost:3000/api/products", data);
       setSuccessMessage("Product created successfully!");
+      setTimeout(() => setSuccessMessage(""), 2000);
       reset({ name: "", price: 0, category: "", variants: [{ color: "", amount: 0 }] });
-      await fetchProducts();
+      fetchProducts();
     } catch (error) {
       console.error("Error creating product:", error);
     }
@@ -247,18 +261,23 @@ const Products = () => {
         }
 
     return (
-    <div className={styles.container}>
-      <h1>Products</h1>
-         <div className={styles.container}>
-                {Sections.map((section) => (
-                    <Card title={section.title} link={section.link}/>
-                ))}
-            </div>
+     <div className={styles.container}>
+            <header className={styles.header}>
+                <h1 className={styles.title}><HiArchive className={styles.icon} />Products</h1>
+                <div className={styles.sections}>
+                    {Sections.map((section) => (
+                        <Card key={section.link} title={section.title} link={section.link} />
+                    ))}
+                </div>
+                <HomeButton />
+            </header>
+            
+      <main className={styles.main}>
       <form onSubmit={handleSubmit(onSubmit)} className={styles.form}>
-        <input type="text" placeholder="Name" {...register("name")} />
+        <input className={styles.input} type="text" placeholder="Name" {...register("name")} />
         {errors.name && <span className={styles.error}>{errors.name.message}</span>}
 
-        <select {...register("category")}>
+        <select className={styles.select} {...register("category")}>
           <option value="">Select Category</option>
           {categories.map((cat) => (
             <option key={cat._id} value={cat._id}>
@@ -268,15 +287,15 @@ const Products = () => {
         </select>
         {errors.category && <span className={styles.error}>{errors.category.message}</span>}
 
-        <input type="number" placeholder="Price" {...register("price")} />
+        <input className={styles.input} type="number" placeholder="Price" {...register("price")} />
         {errors.price && <span className={styles.error}>{errors.price.message}</span>}
 
         {fields.map((field, index) => (
           <div key={field.id} className={styles.variantRow}>
-            <select {...register(`variants.${index}.color` as const)}>
+            <select className={styles.select} {...register(`variants.${index}.color` as const)}>
               <option value="">Select Color</option>
               {colors.map((color) => (
-                <option key={color._id} value={color._id}>
+                <option className={styles.option} key={color._id} value={color._id}>
                   {color.name}
                 </option>
               ))}
@@ -284,72 +303,82 @@ const Products = () => {
             {errors.variants?.[index]?.color && (
               <span className={styles.error}>{errors.variants[index].color.message}</span>
             )}
-            <input
+            <input className={styles.input}
               type="number"
               placeholder="Amount"
               {...register(`variants.${index}.amount` as const)}
             />
             {errors.variants?.[index]?.amount && (<span className={styles.error}>{errors.variants[index].amount.message}</span>)}
-            <button type="button" onClick={() => remove(index)}>
+            <button className={styles.removeButton} type="button" onClick={() => remove(index)}>
               Remove
             </button>
           </div>
         ))}
-        <button type="button" onClick={() => append({ color: "", amount: 0 })}>
+        <div className={styles.buttonGroup}>
+        <button className={styles.addButton} type="button" onClick={() => append({ color: "", amount: 0 })}>
           Add Variant
         </button>
 
-        <button type="submit">Create Product</button>
+        <button className={styles.submitButton} type="submit">Create Product</button>
+        </div>
       </form>
-
+      <div className={styles.searchContainer}>
+        <FaSearch className={styles.searchIcon} />
+        <input
+          type="text"
+          placeholder="Search by product name"
+          onChange={(e) => searchProductByName(e.target.value)}
+          className={styles.searchInput}
+        />
+      </div>
       {successMessage && <p className={styles.success}>{successMessage}</p>}
+      {errorMessage && <p className={styles.error}>{errorMessage}</p>}
 {loading ? (
   <p>Loading...</p>
 ) : error ? (
   <p>Error: {error.message}</p>
 ) : (
   <ul className={styles.productList}>
-       <input
-        type="text"
-        placeholder="Search by product name"
-        onChange={(e) => searchProductByName(e.target.value)}
-        className={styles.searchInput}
-      />
     {Object.keys(groupedProducts).map((categoryName) => (
-      <li key={categoryName}>
-        <h2>{categoryName}</h2>
-        <ul>
+      <div className={styles.categoryItem} key={categoryName}>
+        <h2 className={styles.categoryTitle}>{categoryName}</h2>
+        <ul className={styles.categoryProducts}>
           {groupedProducts[categoryName].map((product) => (
-            <li key={product._id} onClick={(e) => { e.stopPropagation(); goToEditProduct(product._id!); }}>
-              <h3>{product.name}</h3>
-              <p>Price: ${product.price}</p>
-              <ul>
-                <span>Colors:</span>
+            <li key={product._id} 
+            onClick={(e) => { e.stopPropagation(); goToEditProduct(product._id!); }}
+            className={`${styles.productCard} ${!product.isActive ? styles.inactive : ""}`}>
+              <h3 className={styles.productTitle}>{product.name}</h3>
+              <p className={styles.productPrice}>Price: ${product.price}</p>
+              <ul className={styles.variantsList}>
                 {product.variants.map((v, idx) => {
                   const colorName = colors.find((c) => c._id === v.color)?.name || v.color;
                   return (
-                    <li key={idx}>
+                    <li key={idx} className={styles.variantItem}>
                       {colorName} - {v.amount} units
-                      <button onClick={(e) => { e.stopPropagation(); handleIncreaseStock(product._id!, v.color); }}>+</button>
-                      <button onClick={(e) => { e.stopPropagation(); handleReduceStock(product._id!, v.color); }}>-</button>
+                      <div className={styles.buttons}>
+                        <button className={styles.increaseButton} onClick={(e) => { e.stopPropagation(); handleIncreaseStock(product._id!, v.color); }}>+</button>
+                        <button className={styles.reduceButton} onClick={(e) => { e.stopPropagation(); handleReduceStock(product._id!, v.color); }}>-</button>
+                      </div>
                     </li>
                   );
                 })}
               </ul>
+              <div className={styles.actionGroup}>
               <button onClick={(e) => {e.stopPropagation(); if (product.isActive) {handleDeactivateProduct(product._id!);} else {handleActivateProduct(product._id!);}}} className={styles.actDesButton}>
                 {product.isActive ? "Deactivate" : "Activate"}
               </button>
-              <button onClick={(e) => { e.stopPropagation(); handleDeleteProduct(product._id!); }}>
+              <button className={styles.deleteButton} onClick={(e) => { e.stopPropagation(); handleDeleteProduct(product._id!); }}>
                 Delete
               </button>
+              </div>
             </li>
           ))}
         </ul>
-      </li>
+      </div>
     ))}
   </ul>
 )}
-<HomeButton />
+      </main>
     </div>
   );
 };

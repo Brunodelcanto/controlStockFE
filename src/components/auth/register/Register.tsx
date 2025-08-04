@@ -40,7 +40,7 @@ export const Register = () => {
       setIsRegistering(true);
       try {
         await createUser(data.email, data.password);
-      } catch (error:any) {
+      } catch (error: any) {
         if (error.code === "auth/email-already-in-use") {
           setErrorMessage("Email is already in use ⚠️");
           setTimeout(() => setErrorMessage(""), 2000);

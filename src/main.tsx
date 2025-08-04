@@ -12,53 +12,54 @@ import Color from './pages/Color/Color.tsx'
 import EditColor from './pages/Color/Components/EditColor.tsx'
 import Products from './pages/Product/Products.tsx'
 import EditProduct from './pages/Product/Components/EditProduct.tsx'
+import { FallBack } from './components/fallback/FallBack.tsx'
 import "./styles/global.css"
 
 const router = createBrowserRouter([
   {
-    path: '/',
-    element: <PrivateRoute component={HomePage}/>,
-    errorElement: <div>Error loading page</div>
-  },
-  {
-    path: '/categories',
-    element: <PrivateRoute component={Category} />,
-    errorElement: <div>Error loading page</div>
-  },
-  {
-    path: '/category-edit/:id',
-    element: <PrivateRoute component={EditCategory} />,
-    errorElement: <div>Error loading page</div>
-  },
-  {
-    path: '/colors',
-    element: <PrivateRoute component={Color} />,
-    errorElement: <div>Error loading page</div>
-  },
-  {
-    path: '/color-edit/:id',
-    element: <PrivateRoute component={EditColor} />,
-    errorElement: <div>Error loading page</div>
-  },
-  {
-    path: '/products',
-    element: <PrivateRoute component={Products} />,
-    errorElement: <div>Error loading page</div>
-  },
-  {
-    path: '/product-edit/:id',
-    element: <PrivateRoute component={EditProduct} />,
-    errorElement: <div>Error loading page</div>
-  },
-  {
     path: '/login',
     element: <Login />,
-    errorElement: <div>Error loading page</div>
+    errorElement: <FallBack />
   },
   {
     path: '/register',
     element: <Register />,
-    errorElement: <div>Error loading page</div> 
+    errorElement: <FallBack />
+  },
+  {
+    path: '/',
+    element: <PrivateRoute component={HomePage}/>,
+    errorElement: <FallBack />
+  },
+  {
+    path: '/categories',
+    element: <PrivateRoute component={Category} />,
+    errorElement: <FallBack />
+  },
+  {
+    path: '/category-edit/:id',
+    element: <PrivateRoute component={EditCategory} />,
+    errorElement: <FallBack />
+  },
+  {
+    path: '/colors',
+    element: <PrivateRoute component={Color} />,
+    errorElement: <FallBack />
+  },
+  {
+    path: '/color-edit/:id',
+    element: <PrivateRoute component={EditColor} />,
+    errorElement: <FallBack />
+  },
+  {
+    path: '/products',
+    element: <PrivateRoute component={Products} />,
+    errorElement: <FallBack />
+  },
+  {
+    path: '/product-edit/:id',
+    element: <PrivateRoute component={EditProduct} />,
+    errorElement: <FallBack />
   }
 ])
 

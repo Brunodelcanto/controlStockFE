@@ -1,7 +1,7 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import styles from "./Products.module.css";
-import { HomeButton } from "../../components/HomeButton";
+import { HomeButton } from "../../components/homeButton/HomeButton";
 import { useForm, useFieldArray } from "react-hook-form";
 import { joiResolver } from "@hookform/resolvers/joi";
 import Joi from "joi";
@@ -86,6 +86,8 @@ const Products = () => {
     const [error, setError] = useState<Error | null>(null);
     const [successMessage, setSuccessMessage] = useState("");
     const [errorMessage, setErrorMessage] = useState("");
+    const [showDeletePopup, setShowDeletePopup] = useState(false);
+    const [productToDelete, setProductToDelete] = useState<string | null>(null);
 
     const {
         register,
@@ -207,15 +209,27 @@ const Products = () => {
         }
     }
 
+    const confirmDeleteProduct = (id: string) => {
+      setProductToDelete(id);
+      setShowDeletePopup(true);
+    }
+
     const handleDeleteProduct = async (id: string) => {
-        const confirmDelete = window.confirm("Are you sure you want to delete this product?");
-        if (!confirmDelete) return;
         try {
             await axios.delete(`http://localhost:3000/api/products/${id}`);
             const res = await axios.get("http://localhost:3000/api/products");
             setProducts(res.data.data);
         } catch (error) {
             console.error(error);
+        } finally {
+          setShowDeletePopup(false);
+          setProductToDelete(null);
+          setSuccessMessage("Product deleted successfully!");
+            setTimeout(() => {
+                setSuccessMessage("");
+                fetchProducts();
+            }, 2000);
+            reset();
         }
     }
 
@@ -262,15 +276,22 @@ const Products = () => {
 
     return (
      <div className={styles.container}>
-            <header className={styles.header}>
-                <h1 className={styles.title}><HiArchive className={styles.icon} />Products</h1>
-                <div className={styles.sections}>
-                    {Sections.map((section) => (
-                        <Card key={section.link} title={section.title} link={section.link} />
-                    ))}
-                </div>
-                <HomeButton />
-            </header>
+      <header className={styles.header}>
+  <div className={styles.headerTop}>
+    <h1 className={styles.title}>
+      <HiArchive className={styles.icon} />
+      Products
+    </h1>
+    <HomeButton />
+  </div>
+
+  <div className={styles.sections}>
+    {Sections.map((section) => (
+      <Card key={section.link} title={section.title} link={section.link} />
+    ))}
+  </div>
+</header>
+
             
       <main className={styles.main}>
       <form onSubmit={handleSubmit(onSubmit)} className={styles.form}>
@@ -278,7 +299,7 @@ const Products = () => {
         {errors.name && <span className={styles.error}>{errors.name.message}</span>}
 
         <select className={styles.select} {...register("category")}>
-          <option value="">Select Category</option>
+          <option className={styles.option} value="">Select Category</option>
           {categories.map((cat) => (
             <option key={cat._id} value={cat._id}>
               {cat.name}
@@ -293,7 +314,7 @@ const Products = () => {
         {fields.map((field, index) => (
           <div key={field.id} className={styles.variantRow}>
             <select className={styles.select} {...register(`variants.${index}.color` as const)}>
-              <option value="">Select Color</option>
+              <option className={styles.option} value="">Select Color</option>
               {colors.map((color) => (
                 <option className={styles.option} key={color._id} value={color._id}>
                   {color.name}
@@ -326,7 +347,7 @@ const Products = () => {
         <FaSearch className={styles.searchIcon} />
         <input
           type="text"
-          placeholder="Search by product name"
+          placeholder="Search product"
           onChange={(e) => searchProductByName(e.target.value)}
           className={styles.searchInput}
         />
@@ -367,7 +388,7 @@ const Products = () => {
               <button onClick={(e) => {e.stopPropagation(); if (product.isActive) {handleDeactivateProduct(product._id!);} else {handleActivateProduct(product._id!);}}} className={styles.actDesButton}>
                 {product.isActive ? "Deactivate" : "Activate"}
               </button>
-              <button className={styles.deleteButton} onClick={(e) => { e.stopPropagation(); handleDeleteProduct(product._id!); }}>
+                  <button className={styles.deleteButton} onClick={(e) => { e.stopPropagation(); confirmDeleteProduct(product._id!); }}>
                 Delete
               </button>
               </div>
@@ -379,6 +400,17 @@ const Products = () => {
   </ul>
 )}
       </main>
+{showDeletePopup && (
+  <div className={styles.deletePopup}>
+    <div className={styles.popup}>
+      <p>Are you sure you want to delete this product?</p>
+      <div className={styles.popupButtons}>
+        <button onClick={() => handleDeleteProduct(productToDelete!)}>Yes</button>
+        <button onClick={() => setShowDeletePopup(false)}>No</button>
+      </div>
+    </div>
+  </div>
+)}
     </div>
   );
 };

@@ -9,23 +9,35 @@
 }
 
 .header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 2rem;
-    flex-wrap: wrap;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.headerTop {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
 }
 
 .title {
-    font-size: 2rem;
-    font-weight: 700;
+  font-size: 2rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
 }
 
 .sections {
-    display: flex;
-    gap: 1rem;
-    flex-wrap: wrap;
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+  justify-content: center;
 }
+
 
 .main {
     display: flex;
@@ -45,17 +57,83 @@
     padding: 2rem;
     border-radius: 12px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    box-sizing: border-box;
+    overflow: hidden;
 }
 
-.input, select, .searchInput {
-   padding: 0.8rem;
-  border-radius: 6px;
-  border: none;
+.input,
+.searchInput {
+  padding: 0.8rem 1rem;
+  border-radius: 10px;
+  border: 1px solid #3a3a4d;
   font-size: 1rem;
   width: 100%;
-  background-color: #f1e9e4;
-  color: #1D1D27;
+    background-color: #1D1D27;
+  color: #cca281;
+  transition: all 0.2s ease;
 }
+
+.input,
+select {
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+select {
+  padding: 0.8rem 2.5rem 0.8rem 1rem;
+  border-radius: 10px;
+  border: 1px solid #3a3a4d;
+  background-color: #2a2a38;
+  color: #cca281;
+  font-size: 1rem;
+  flex: 1;
+  min-width: 120px;
+  appearance: none;
+  transition: all 0.2s ease;
+  cursor: pointer;
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23cca281' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6,9 12,15 18,9'%3e%3c/polyline%3e%3c/svg%3e");
+  background-repeat: no-repeat;
+  background-position: right 0.7rem center;
+  background-size: 1em;
+}
+
+.option {
+  background-color: #2a2a38;
+  color: #cca281;
+}
+
+select:hover {
+  background-color: #333346;
+  border-color: #cca281;
+   color: #cca281;
+  cursor: pointer;
+}
+
+select:focus {
+  outline: none;
+  border-color: #cca281;
+  box-shadow: 0 0 0 2px rgba(204, 162, 129, 0.2);
+}
+
+.input::placeholder,
+.searchInput::placeholder {
+  color: rgba(204, 162, 129, 0.6);
+}
+
+.input:hover,
+.searchInput:hover{
+  background-color: #333346;
+  border-color: #cca281;
+}
+
+.input:focus,
+.searchInput:focus,
+select:focus {
+  outline: none;
+  border-color: #cca281;
+  box-shadow: 0 0 0 2px rgba(204, 162, 129, 0.2);
+}
+
 
 .searchInput {
   max-width: 280px;
@@ -69,21 +147,57 @@
   width: 100%;
 }
 
+
 input[type=number]::-webkit-inner-spin-button,
 input[type=number]::-webkit-outer-spin-button {
   -webkit-appearance: none;
   margin: 0;
 }
-input[type=number] {
-  -moz-appearance: textfield;
+
+input[type="number"] {
+  -moz-appearance: textfield; 
+  padding: 0.8rem 1rem;
+  border-radius: 10px;
+  border: 1px solid #3a3a4d;
+  background-color: #2a2a38;
+  color: #cca281;
+  font-size: 1rem;
+  flex: 1;
+  min-width: 80px;
+  box-sizing: border-box;
+  transition: all 0.2s ease;
+  height: 42px;
+  display: flex;
+  align-items: center;
+}
+
+.input[type="number"]:hover {
+  background-color: #333346;
+  border-color: #cca281;
+}
+
+.input[type="number"]:focus {
+  outline: none;
+  border-color: #cca281;
+  box-shadow: 0 0 0 2px rgba(204, 162, 129, 0.2);
 }
 
 .variantRow {
-      display: flex;
-  align-items: center;
+  display: flex;
   gap: 0.5rem;
   margin-top: 0.5rem;
+  flex-wrap: wrap;
+  align-items: center;
 }
+
+.variantRow select,
+.variantRow .input,
+.variantRow .removeButton {
+  height: 42px;
+  display: flex;
+  align-items: center;
+}
+
 
 .buttonGroup {
   display: flex;
@@ -94,26 +208,69 @@ input[type=number] {
 }
 
 .increaseButton, .reduceButton,
-.actDesButton, .deleteButton, .addButton, .submitButton, .removeButton {
-  background-color: #70452f;
-  color: white;
+.actDesButton, .addButton, .submitButton {
+  background: linear-gradient(135deg, #70452f, #5a3622);
+  color: #e2c8b2;
+  padding: 0.5rem 1rem;
   border: none;
-  padding: 0.4rem 0.8rem;
-  border-radius: 6px;
-  font-weight: bold;
+  border-radius: 10px;
+  font-weight: 600;
   cursor: pointer;
-  transition: background-color 0.3s ease;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+  font-size: 1rem;
 }
 
 .increaseButton:hover, .reduceButton:hover,
-.actDesButton:hover, .deleteButton:hover, .addButton:hover, .submitButton:hover, .removeButton:hover {
-  background-color: #5a3622;
+.actDesButton:hover, .addButton:hover, .submitButton:hover {
+  background: linear-gradient(135deg, #8c5b3b, #70452f);
+  transform: translateY(-1px);
+}
+
+.deleteButton, .removeButton {
+  background: linear-gradient(135deg, #a63838, #832828);
+  color: #e2c8b2;
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 10px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+  font-size: 1rem;
+}
+
+.deleteButton:hover, .removeButton:hover {
+  background: linear-gradient(135deg, #c74444, #9e2c2c);
+  transform: scale(1.05);
+}
+
+.removeButton {
+  background: linear-gradient(135deg, #a63838, #832828);
+  color: #e2c8b2;
+  border: none;
+  padding: 0;
+  border-radius: 10px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+  height: 42px;
+  min-width: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.9rem;
+}
+
+.actionGroup {
+  justify-content: center;
 }
 
 .success {
-    color: #91ec91;
-    font-weight: bold;
-    margin-bottom: 1rem;
+  color: #91ec91;
+  font-weight: bold;
+  margin-bottom: 1rem;
 }
 
 .productList {
@@ -136,23 +293,24 @@ ul {
 .productCard {
   background-color: #2a2a3b;
   padding: 1rem;
-  border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.3);
-  transition: background-color 0.3s ease;
-  margin-bottom: 0;
+  border-radius: 16px;
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
   cursor: pointer;
-  height: 280px;
+  transition: transform 0.25s ease, box-shadow 0.25s ease, background-color 0.25s ease;
   width: 250px;
   min-width: 250px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  height: 280px;
 }
 
 .productCard:hover {
-    background-color: #3b3b4d;
-  transform: translateY(-4px);
+  background-color: #383854;
+  transform: translateY(-6px) scale(1.02);
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.35);
 }
+
 
 
 .productCard.inactive {
@@ -177,7 +335,7 @@ ul {
 }
 
 .categoryProducts::-webkit-scrollbar-track {
-    background: #1D1D27;
+    background: #2a2a3b;
     border-radius: 4px;
 }
 
@@ -209,12 +367,32 @@ ul {
 
 .variantsList {
   list-style: none;
-  padding: 0;
+  padding: 5px;
   margin: 0.5rem 0;
   flex: 1;
   overflow-y: auto;
   max-height: 120px;
 }
+
+.variantsList::-webkit-scrollbar {
+    width: 3px;
+
+}
+
+.variantsList::-webkit-scrollbar-track {
+    background: #1D1D27;
+    border-radius: 4px;
+}
+
+.variantsList::-webkit-scrollbar-thumb {
+    background: #70452f;
+    border-radius: 4px;
+}
+
+.variantsList::-webkit-scrollbar-thumb:hover {
+    background: #5a3622;
+}
+
 
 .variantsTitle {
   font-weight: bold;
@@ -263,11 +441,63 @@ ul {
   margin: 0 auto 1.5rem auto;
 }
 
+.searchInput {
+  padding: 0.6rem 1rem 0.6rem 2.5rem;
+  border-radius: 10px;
+  border: 1px solid #3a3a4d;
+  background-color: #2a2a38;
+  color: #cca281;
+  font-size: 1rem;
+  transition: all 0.2s ease;
+  width: 100%;
+}
+
+.searchInput:hover {
+  background-color: #333346;
+  border-color: #cca281;
+}
+
+.searchInput:focus {
+  outline: none;
+  border-color: #cca281;
+  box-shadow: 0 0 0 2px rgba(204, 162, 129, 0.2);
+}
+
 .searchIcon {
   position: absolute;
   left: 12px;
   font-size: 1rem;
-  color: #70452f;
+  color: #cca281;
   pointer-events: none;
   z-index: 1;
 }
+
+
+.deletePopup {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999; 
+}
+
+
+.popup {
+  background-color: #2a2a3b;
+  padding: 2rem;
+  border-radius: 10px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+}
+
+.popupButtons {
+  margin-top: 1rem;
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+}
+

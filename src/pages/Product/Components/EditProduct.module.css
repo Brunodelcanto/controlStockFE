@@ -23,15 +23,18 @@ h1 {
 }
 
 .form {
-  background-color: #2a2a38;
-  padding: 2rem;
-  border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-  max-width: 600px;
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    width: 100%;
+    max-width: 600px;
+    margin-bottom: 2rem;
+    background-color: #2a2a38;
+    padding: 2rem;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    box-sizing: border-box;
+    overflow: hidden;
 }
 
 .formGroup {
@@ -41,13 +44,58 @@ h1 {
 }
 
 .input, select {
-  padding: 0.8rem;
-  border-radius: 6px;
-  border: none;
+  padding: 0.8rem 1rem;
+  border-radius: 10px;
+  border: 1px solid #3a3a4d;
   font-size: 1rem;
   width: 100%;
-  background-color: #f1e9e4;
-  color: #1D1D27;
+  background-color: #1D1D27;
+  color: #cca281;
+  transition: all 0.2s ease;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+.option {
+  background-color: #2a2a38;
+  color: #cca281;
+}
+
+input:hover{
+  background-color: #333346;
+  border-color: #cca281;
+  color: #cca281;
+}
+
+select:hover {
+  background-color: #333346;
+  border-color: #cca281;
+   color: #cca281;
+  cursor: pointer;
+}
+
+select:focus {
+  outline: none;
+  border-color: #cca281;
+  box-shadow: 0 0 0 2px rgba(204, 162, 129, 0.2);
+}
+
+.input::placeholder,
+select::placeholder {
+  color: rgba(204, 162, 129, 0.6);
+}
+
+.input:focus,
+select:focus {
+  background-color: #333346;
+  border-color: #cca281;
+}
+
+.input:focus,
+select:focus {
+  outline: none;
+  border-color: #cca281;
+  box-shadow: 0 0 0 2px rgba(204, 162, 129, 0.2);
 }
 
 input[type=number]::-webkit-inner-spin-button,
@@ -56,18 +104,47 @@ input[type=number]::-webkit-outer-spin-button {
   margin: 0;
 }
 input[type=number] {
-  -moz-appearance: textfield;
+   -moz-appearance: textfield; 
+  padding: 0.8rem 1rem;
+  border-radius: 10px;
+  border: 1px solid #3a3a4d;
+  background-color: #1D1D27;
+  color: #cca281;
+  font-size: 1rem;
+  flex: 1;
+  min-width: 80px;
+  box-sizing: border-box;
+  transition: all 0.2s ease;
+  height: 42px;
+  display: flex;
+  align-items: center;
 }
 
-.option {
-  color: #1D1D27;
+.input[type="number"]:hover {
+  background-color: #333346;
+  border-color: #cca281;
+}
+
+.input[type="number"]:focus {
+  outline: none;
+  border-color: #cca281;
+  box-shadow: 0 0 0 2px rgba(204, 162, 129, 0.2);
 }
 
 .variantRow {
+   display: flex;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.variantRow select,
+.variantRow .input,
+.variantRow .removeButton {
+  height: 42px;
   display: flex;
   align-items: center;
-  gap: 0.5rem;
-  flex-wrap: wrap;
 }
 
 .buttonGroup {
@@ -80,21 +157,50 @@ input[type=number] {
 
 .addButton,
 .removeButton,
-.submitButton {
-  background-color: #70452f;
-  color: white;
-  border: none;
+.submitButton,
+.goBackButton {
+  background: linear-gradient(135deg, #70452f, #5a3622);
+   color: #e2c8b2;
   padding: 0.5rem 1rem;
-  border-radius: 6px;
-  font-weight: bold;
+  border: none;
+  border-radius: 10px;
+  font-weight: 600;
   cursor: pointer;
-  transition: background-color 0.3s ease;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+    font-size: 1rem;
 }
 
 .addButton:hover,
 .removeButton:hover,
-.submitButton:hover {
-  background-color: #5a3622;
+.submitButton:hover,
+.goBackButton:hover {
+  background: linear-gradient(135deg, #8c5b3b, #70452f);
+  transform: translateY(-1px);
+}
+
+
+.removeButton {
+  background: linear-gradient(135deg, #a63838, #832828);
+  color: #e2c8b2;
+  border: none;
+  padding: 0;
+  border-radius: 10px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+  height: 42px;
+  min-width: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.9rem;
+}
+
+.removeButton:hover {
+  background: linear-gradient(135deg, #c74444, #9e2c2c);
+  transform: scale(1.05);
 }
 
 .error {

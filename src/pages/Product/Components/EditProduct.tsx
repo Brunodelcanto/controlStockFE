@@ -24,7 +24,7 @@ type Products = {
    name: string;
    price: number;
    variants: {
-       _id?: string; // Permitir _id opcional en variants
+       _id?: string; 
        color: string;
        amount: number;
    }[];
@@ -49,7 +49,7 @@ const validationsSchema = Joi.object({
   }),
   variants: Joi.array().items(
     Joi.object({
-      _id: Joi.string().optional(), // Permitir _id opcional
+      _id: Joi.string().optional(),
       color: Joi.string().required().messages({
         "string.empty": "Color is required ⚠️",
         "any.required": "Color is required ⚠️",
@@ -244,7 +244,7 @@ const EditProduct = () => {
       <button className={styles.submitButton} type="submit">
         Update Product
       </button>
-    <button onClick={goBack}>Go Back</button>
+    <button className={styles.goBackButton} onClick={goBack}>Go Back</button>
       </div>
         </div>
     </form>

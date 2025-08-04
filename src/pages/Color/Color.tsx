@@ -29,6 +29,8 @@ const Color = () => {
     const [error, setError] = useState<Error | null>(null);
     const [successMessage, setSuccessMessage] = useState("");
     const [errorMessage, setErrorMessage] = useState("");
+    const [showDeletePopup, setShowDeletePopup] = useState(false);
+    const [colorToDelete, setColorToDelete] = useState<string | null>(null);
 
         const {
             register,
@@ -90,8 +92,15 @@ const Color = () => {
             await axios.patch(`http://localhost:3000/api/colors/${id}/deactivate`);
             const res = await axios.get("http://localhost:3000/api/colors");
             setColors(res.data.data);
+            setSuccessMessage("Color deactivated successfully!");
+            setTimeout(() => setSuccessMessage(""), 2000);
         } catch (error) {
-            console.error(error);
+            if (axios.isAxiosError(error) && error.response?.status === 400) {
+                setErrorMessage("Cannot deactivate color with active products! ⚠️");
+            } else {
+                setErrorMessage("An unexpected error occurred ⚠️");
+            }
+            setTimeout(() => setErrorMessage(""), 2000);
         }
     }
 
@@ -105,16 +114,31 @@ const Color = () => {
         }
     }
 
+        const confirmDeleteColor = (id: string) => {
+      setColorToDelete(id);
+      setShowDeletePopup(true);
+    }
+
       const handleDeleteColor = async (id: string) => {
-        const confirmDelete = window.confirm("Are you sure you want to delete this color?");
-        if (!confirmDelete) return;
         try {
             await axios.delete(`http://localhost:3000/api/colors/${id}`);
             const res = await axios.get("http://localhost:3000/api/colors");
             setColors(res.data.data);
+            setSuccessMessage("Color deleted successfully!");
+            setTimeout(() => setSuccessMessage(""), 2000);
         } catch (error) {
-            console.error(error);
+            if (axios.isAxiosError(error) && error.response?.status === 400) {
+                setErrorMessage("Cannot delete color with active products! ⚠️");
+            } else {
+                setErrorMessage("An unexpected error occurred ⚠️");
+            }
+           setTimeout(() => setErrorMessage(""), 2000);
+        } finally {
+            setShowDeletePopup(false);
+            setColorToDelete(null);
+            reset();
         }
+
     }
 
      const goToEditColor = (id: string) => {
@@ -139,7 +163,7 @@ const Color = () => {
                     {errors.name && <span className={styles.error}>{errors.name.message}</span>}
                     <div className={styles.buttonGroup}>
                     <button type="submit" className={styles.submitButton}>Create Color</button>
-                     <button onClick={goBack}>Go Back</button>
+                     <button className={styles.goBackButton} onClick={goBack}>Go Back</button>
                     </div>
                 </form>
             </div>
@@ -148,17 +172,31 @@ const Color = () => {
                 <ul className={styles.colorsList}>
                 {colors.map((item: Color) => (
                     <li key={item._id} className={`${styles.colorContainer} ${!item.isActive? styles.inactiveColor : ''}`} onClick={() => goToEditColor(item._id!)}>
-                        <h2>{item.name}</h2>
+                        <h2 className={styles.colorName}>{item.name}</h2>
+                        <div className={styles.buttonGroup}>
                         <button onClick={(e) => {e.stopPropagation(); if (item.isActive) {handleDeactivateColor(item._id!);} else {handleActivateColor(item._id!);}}} className={styles.actDesButton}>
                         {item.isActive ? "Deactivate" : "Activate"} </button>
-                        <button onClick={(e) => {e.stopPropagation(); handleDeleteColor(item._id!);}} className={styles.deleteButton}>
+                        <button onClick={(e) => {e.stopPropagation(); confirmDeleteColor(item._id!);}} className={styles.deleteButton}>
                             Delete
                         </button>
+
+                        </div>
                     </li>
                 ))}
                 </ul>
             )}
             </div>
+            {showDeletePopup && (
+              <div className={styles.deletePopup}>
+                <div className={styles.popup}>
+                  <p>Are you sure you want to delete this color?</p>
+                  <div className={styles.popupButtons}>
+                    <button onClick={() => handleDeleteColor(colorToDelete!)}>Yes</button>
+                    <button onClick={() => setShowDeletePopup(false)}>No</button>
+                  </div>
+                </div>
+              </div>
+            )}
         </div>
     )
 }

@@ -208,7 +208,7 @@ input[type="number"] {
 }
 
 .increaseButton, .reduceButton,
-.actDesButton, .addButton, .submitButton {
+.actDesButton, .addButton, .cancelButton, .submitButton {
   background: linear-gradient(135deg, #70452f, #5a3622);
   color: #e2c8b2;
   padding: 0.5rem 1rem;
@@ -222,12 +222,12 @@ input[type="number"] {
 }
 
 .increaseButton:hover, .reduceButton:hover,
-.actDesButton:hover, .addButton:hover, .submitButton:hover {
+.actDesButton:hover, .addButton:hover, .cancelButton:hover, .submitButton:hover {
   background: linear-gradient(135deg, #8c5b3b, #70452f);
   transform: translateY(-1px);
 }
 
-.deleteButton, .removeButton {
+.deleteButton, .removeButton, .confirmButton {
   background: linear-gradient(135deg, #a63838, #832828);
   color: #e2c8b2;
   padding: 0.5rem 1rem;
@@ -240,7 +240,7 @@ input[type="number"] {
   font-size: 1rem;
 }
 
-.deleteButton:hover, .removeButton:hover {
+.deleteButton:hover, .removeButton:hover, .confirmButton:hover {
   background: linear-gradient(135deg, #c74444, #9e2c2c);
   transform: scale(1.05);
 }

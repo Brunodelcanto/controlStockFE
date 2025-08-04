@@ -405,8 +405,8 @@ const Products = () => {
     <div className={styles.popup}>
       <p>Are you sure you want to delete this product?</p>
       <div className={styles.popupButtons}>
-        <button onClick={() => handleDeleteProduct(productToDelete!)}>Yes</button>
-        <button onClick={() => setShowDeletePopup(false)}>No</button>
+        <button className={styles.confirmButton} onClick={() => handleDeleteProduct(productToDelete!)}>Yes</button>
+        <button className={styles.cancelButton} onClick={() => setShowDeletePopup(false)}>No</button>
       </div>
     </div>
   </div>

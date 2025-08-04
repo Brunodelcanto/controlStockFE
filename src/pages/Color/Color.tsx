@@ -191,8 +191,8 @@ const Color = () => {
                 <div className={styles.popup}>
                   <p>Are you sure you want to delete this color?</p>
                   <div className={styles.popupButtons}>
-                    <button onClick={() => handleDeleteColor(colorToDelete!)}>Yes</button>
-                    <button onClick={() => setShowDeletePopup(false)}>No</button>
+                    <button className={styles.confirmButton} onClick={() => handleDeleteColor(colorToDelete!)}>Yes</button>
+                    <button className={styles.cancelButton} onClick={() => setShowDeletePopup(false)}>No</button>
                   </div>
                 </div>
               </div>

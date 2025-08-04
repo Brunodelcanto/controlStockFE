@@ -187,8 +187,8 @@ const Category = () => {
                 <div className={styles.popup}>
                   <p>Are you sure you want to delete this category?</p>
                   <div className={styles.popupButtons}>
-                    <button onClick={() => handleDeleteCategory(categoryToDelete!)}>Yes</button>
-                    <button onClick={() => setShowDeletePopup(false)}>No</button>
+                    <button className={styles.confirmButton} onClick={() => handleDeleteCategory(categoryToDelete!)}>Yes</button>
+                    <button className={styles.cancelButton} onClick={() => setShowDeletePopup(false)}>No</button>
                   </div>
                 </div>
               </div>

@@ -56,7 +56,7 @@
   gap: 1rem;
 }
 
-.actDesButton, .submitButton, .goBackButton {
+.actDesButton, .submitButton, .goBackButton, .cancelButton {
   background: linear-gradient(135deg, #70452f, #5a3622);
   color: #e2c8b2;
   padding: 0.5rem 1rem;
@@ -69,12 +69,12 @@
   font-size: 1rem;
 }
 
-.actDesButton:hover, .submitButton:hover, .goBackButton:hover {
+.actDesButton:hover, .submitButton:hover, .goBackButton:hover, .cancelButton:hover {
    background: linear-gradient(135deg, #8c5b3b, #70452f);
   transform: translateY(-1px);
 }
 
-.deleteButton {
+.deleteButton, .confirmButton {
     background: linear-gradient(135deg, #a63838, #832828);
   color: #e2c8b2;
   padding: 0.5rem 1rem;
@@ -87,7 +87,7 @@
   font-size: 1rem;
 }
 
-.deleteButton:hover {
+.deleteButton:hover, .confirmButton:hover {
     background: linear-gradient(135deg, #c74444, #9e2c2c);
   transform: scale(1.05);
 }

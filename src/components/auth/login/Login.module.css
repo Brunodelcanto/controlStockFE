@@ -55,9 +55,43 @@
 
 .error {
     font-size: 0.875rem;
-    color: #ff6b6b;
-    margin-top: -0.5rem;
-    margin-bottom: 0.25rem;
+    color: #fca5a5;
+    background-color: rgba(239, 68, 68, 0.1);
+    font-weight: 500;
+    margin: 0.25rem 0;
+    padding: 0.5rem 0.75rem;
+    border-radius: 8px;
+    border-left: 3px solid #ef4444;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    animation: fadeIn 0.3s ease-out;
+}
+
+.error::before {
+    content: "!";
+    font-size: 0.9rem;
+    font-weight: bold;
+    color: #ef4444;
+    background-color: rgba(239, 68, 68, 0.2);
+    border-radius: 50%;
+    width: 1.2rem;
+    height: 1.2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-5px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 .button {

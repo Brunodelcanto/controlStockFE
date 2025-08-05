@@ -15,10 +15,10 @@ type Categories = {
 
 const validationsSchema = Joi.object<Categories>({
     name: Joi.string().min(2).max(100).required().messages({
-        "string.empty": "Name is required ⚠️",
-        "string.min": "Name must be at least 2 characters long ⚠️",
-        "string.max": "Name must be at most 100 characters long ⚠️",
-        "any.required": "Name is required ⚠️",
+        "string.empty": "Name is required",
+        "string.min": "Name must be at least 2 characters long",
+        "string.max": "Name must be at most 100 characters long",
+        "any.required": "Name is required",
     })
 })
 
@@ -45,7 +45,6 @@ const Category = () => {
         try {
             const response = await axios.get ("http://localhost:3000/api/categories");
             setCategories(response.data.data);
-            console.log(response.data);
         } catch (err) {
             if (err instanceof Error) {
                 setError(err);   
@@ -78,7 +77,6 @@ const Category = () => {
             setTimeout(() => setSuccessMessage(""), 2000);
             reset();
             setCategories(prev => [...prev, response.data.data]);
-            console.log(response.data);
         } catch (error) {
             console.error("Error creating category:", error);
         }

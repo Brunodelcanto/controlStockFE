@@ -15,10 +15,10 @@ type Color = {
 
 const validationsSchema = Joi.object<Color>({
     name: Joi.string().min(2).max(100).required().messages({
-        "string.empty": "Name is required ⚠️",
-        "string.min": "Name must be at least 2 characters long ⚠️",
-        "string.max": "Name must be at most 100 characters long ⚠️",
-        "any.required": "Name is required ⚠️",
+        "string.empty": "Name is required",
+        "string.min": "Name must be at least 2 characters long",
+        "string.max": "Name must be at most 100 characters long",
+        "any.required": "Name is required",
     })
 })
 
@@ -45,7 +45,6 @@ const Color = () => {
         try {
             const response = await axios.get ("http://localhost:3000/api/colors");
             setColors(response.data.data);
-            console.log(response.data);
         } catch (err) {
             if (err instanceof Error) {
                 setError(err);   
@@ -80,7 +79,6 @@ const Color = () => {
                 }, 2000);
                 reset();
                 setColors(prev => [...prev, response.data.data]);
-                console.log(response.data);
             } catch (error) {
                 console.error("Error creating color:", error);
             }

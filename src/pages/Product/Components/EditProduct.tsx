@@ -33,36 +33,36 @@ type Products = {
 
 const validationsSchema = Joi.object({
   name: Joi.string().min(2).max(100).required().messages({
-    "string.empty": "Name is required ⚠️",
-    "string.min": "Name must be at least 2 characters long ⚠️",
-    "string.max": "Name must be at most 100 characters long ⚠️",
-    "any.required": "Name is required ⚠️",
+    "string.empty": "Name is required",
+    "string.min": "Name must be at least 2 characters long",
+    "string.max": "Name must be at most 100 characters long",
+    "any.required": "Name is required",
   }),
   price: Joi.number().min(0).required().messages({
-    "number.base": "Price must be a number ⚠️",
-    "number.min": "Price must be at least 0 ⚠️",
-    "any.required": "Price is required ⚠️",
+    "number.base": "Price must be a number",
+    "number.min": "Price must be at least 0",
+    "any.required": "Price is required",
   }),
   category: Joi.string().required().messages({
-    "string.empty": "Category is required ⚠️",
-    "any.required": "Category is required ⚠️",
+    "string.empty": "Category is required",
+    "any.required": "Category is required",
   }),
   variants: Joi.array().items(
     Joi.object({
       _id: Joi.string().optional(),
       color: Joi.string().required().messages({
-        "string.empty": "Color is required ⚠️",
-        "any.required": "Color is required ⚠️",
+        "string.empty": "Color is required",
+        "any.required": "Color is required",
       }),
       amount: Joi.number().min(0).required().messages({
-        "number.base": "Amount must be a number ⚠️",
-        "number.min": "Amount must be at least 0 ⚠️",
-        "any.required": "Amount is required ⚠️",
+        "number.base": "Amount must be a number",
+        "number.min": "Amount must be at least 0",
+        "any.required": "Amount is required",
       }),
     })
   ).min(1).required().messages({
-    "array.min": "At least one variant is required ⚠️",
-    "any.required": "Variants are required ⚠️",
+    "array.min": "At least one variant is required",
+    "any.required": "Variants are required",
   })
 })
 

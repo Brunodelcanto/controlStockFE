@@ -9,8 +9,8 @@ const PrivateRoute: React.FC<PrivateRouteProps> = ({
     component: Component,
 }) => {
     const auth = useAuth();
-    if (auth?.userLoggedIn === null) return <div>Loading...</div>
-    return auth?.userLoggedIn ? <Component /> : <Navigate to="/login" />;
+    if (auth?.userLoggedIn === null) return <div>Loading...</div>;
+     return auth?.userLoggedIn ? <Component /> : <Navigate to="/login" />;
 };
 
 export default PrivateRoute;

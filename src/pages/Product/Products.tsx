@@ -330,15 +330,19 @@ const Products = () => {
               {...register(`variants.${index}.amount` as const)}
             />
             {errors.variants?.[index]?.amount && (<span className={styles.error}>{errors.variants[index].amount.message}</span>)}
-            <button className={styles.removeButton} type="button" onClick={() => remove(index)}>
-              Remove
-            </button>
+            {index > 0 && (
+              <button className={styles.removeButton} type="button" onClick={() => remove(index)}>
+                Remove
+              </button>
+            )}
           </div>
         ))}
         <div className={styles.buttonGroup}>
-        <button className={styles.addButton} type="button" onClick={() => append({ color: "", amount: 0 })}>
-          Add Variant
-        </button>
+        {fields.length < colors.length && (
+          <button className={styles.addButton} type="button" onClick={() => append({ color: "", amount: 0 })}>
+            Add Variant ({fields.length}/{colors.length})
+          </button>
+        )}
 
         <button className={styles.submitButton} type="submit">Create Product</button>
         </div>

@@ -232,9 +232,13 @@ const EditProduct = () => {
               {...register(`variants.${index}.amount` as const)}
             />
             {errors.variants?.[index]?.amount && (<span className={styles.error}>{errors.variants[index].amount.message}</span>)}
+            { index > 0 && (
             <button className={styles.removeButton} type="button" onClick={() => remove(index)}>
               Remove
             </button>
+            )
+            }
+   
           </div>
         ))}
         <div className={styles.buttonGroup}> 

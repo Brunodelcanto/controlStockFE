@@ -384,6 +384,7 @@ const Products = () => {
                   );
                 })}
               </ul>
+              <p className={styles.productTotal}>Total units: {product.variants.reduce((sum, v) => sum + v.amount, 0)}</p>
               <div className={styles.actionGroup}>
               <button onClick={(e) => {e.stopPropagation(); if (product.isActive) {handleDeactivateProduct(product._id!);} else {handleActivateProduct(product._id!);}}} className={styles.actDesButton}>
                 {product.isActive ? "Deactivate" : "Activate"}

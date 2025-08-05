@@ -197,3 +197,65 @@
   justify-content: center;
 }
 
+@media (max-width: 768px) {
+  .container {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column; 
+    justify-content: flex-start; 
+    align-items: center;
+    padding: 1rem;
+  }
+
+  
+  .form {
+    max-width: 100%;
+    margin: 1rem 0;
+    padding: 1.5rem;
+  }
+
+  .buttonGroup {
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .actDesButton,
+  .submitButton,
+  .goBackButton,
+  .cancelButton,
+  .deleteButton,
+  .confirmButton {
+    width: 100%;
+    font-size: 1rem;
+  }
+
+  .icon {
+    font-size: 2rem;
+  }
+
+  .categoryName, .description {
+    padding: 0.5rem 0;
+    width: 100%;
+    text-align: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .form {
+    padding: 1rem;
+  }
+
+  .actDesButton,
+  .submitButton,
+  .goBackButton,
+  .cancelButton,
+  .deleteButton,
+  .confirmButton {
+    font-size: 0.95rem;
+    padding: 0.5rem;
+  }
+
+  .icon {
+    font-size: 1.75rem;
+  }
+}

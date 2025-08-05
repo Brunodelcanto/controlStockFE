@@ -230,3 +230,73 @@
   justify-content: center;
 }
 
+@media (max-width: 768px) {
+  .form {
+    padding: 1.5rem;
+    max-width: 100%;
+  }
+
+  .colorContainer {
+    padding: 1rem;
+  }
+
+  .colorsList {
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  }
+
+  .icon {
+    font-size: 2rem;
+  }
+
+  .submitButton,
+  .goBackButton,
+  .cancelButton,
+  .actDesButton,
+  .deleteButton,
+  .confirmButton {
+    width: 100%;
+    font-size: 1rem;
+  }
+
+  .buttonGroup {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .formContainer {
+    padding: 0 1rem;
+  }
+
+  h1, .colorName {
+    font-size: 1.5rem;
+    text-align: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .form {
+    padding: 1rem;
+  }
+
+  .input {
+    padding: 0.7rem 0.9rem;
+    font-size: 0.95rem;
+  }
+
+  .popup {
+    width: 90%;
+    padding: 1.5rem;
+  }
+
+  .popupButtons {
+    flex-direction: column;
+  }
+
+  .popupButtons button {
+    width: 100%;
+  }
+
+  .icon {
+    font-size: 1.75rem;
+  }
+}

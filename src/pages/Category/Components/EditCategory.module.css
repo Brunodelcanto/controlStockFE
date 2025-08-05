@@ -99,3 +99,48 @@
     justify-content: center;
     text-align: center;
 }
+
+@media (max-width: 768px) {
+  .container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    padding: 0;
+  }
+
+  .form {
+    max-width: 100%;
+    margin: 0;
+    padding: 1.5rem;
+  }
+
+  .buttonGroup {
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .button {
+    width: 100%;
+    font-size: 1rem;
+  }
+
+  .icon {
+    font-size: 2rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .form {
+    padding: 1rem;
+  }
+
+  .button {
+    font-size: 0.95rem;
+    padding: 0.5rem;
+  }
+
+  .icon {
+    font-size: 1.75rem;
+  }
+}

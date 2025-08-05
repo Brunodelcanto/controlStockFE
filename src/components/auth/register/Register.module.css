@@ -85,3 +85,57 @@ background-color: #CCA281;
 .link:hover {
     color: #b89169; 
 }
+
+@media (max-width: 768px) {
+  .form {
+    padding: 2rem 1.5rem;
+    max-width: 90%;
+    gap: 1rem;
+  }
+
+  .title {
+    font-size: 1.75rem;
+  }
+
+  .textInput {
+    font-size: 0.95rem;
+    padding: 10px 12px;
+  }
+
+  .button {
+    font-size: 0.95rem;
+    padding: 12px;
+  }
+}
+
+@media (max-width: 480px) {
+  .form {
+    padding: 1.5rem 1rem;
+    max-width: 100%;
+    border-radius: 8px;
+    box-shadow: none;
+  }
+
+  .title {
+    font-size: 1.5rem;
+  }
+
+  .textInput {
+    font-size: 0.9rem;
+    padding: 10px;
+  }
+
+  .button {
+    font-size: 0.9rem;
+    padding: 10px;
+  }
+
+  .link {
+    font-size: 0.9rem;
+  }
+
+  .register {
+    text-align: center;
+    font-size: 0.9rem;
+  }
+}

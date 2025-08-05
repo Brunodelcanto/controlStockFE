@@ -27,7 +27,7 @@ export const AuthProvider = ({ children }) => {
         return unsubscribe;
     });
 
-    const initializeUser = async (user) => {
+    const initializeUser = async (user: any) => {
         if (user) {
             setCurrentUser(user);
             setUserLoggedIn(true);

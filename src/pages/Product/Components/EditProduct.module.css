@@ -241,3 +241,63 @@ button:hover {
   padding: 1px 10px 0 0;
   font-size: 2.5rem;
 }
+
+@media (max-width: 768px) {
+  .form {
+    padding: 1.5rem;
+  }
+
+  .variantRow {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .variantRow select,
+  .variantRow .input,
+  .variantRow .removeButton {
+    width: 100%;
+    height: 42px;
+  }
+
+  .buttonGroup {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .addButton,
+  .removeButton,
+  .submitButton,
+  .goBackButton {
+    width: 100%;
+  }
+
+  h1 {
+    font-size: 1.5rem;
+    text-align: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .form {
+    padding: 1rem;
+  }
+
+  .input,
+  select,
+  input[type="number"] {
+    font-size: 0.95rem;
+    padding: 0.7rem 0.9rem;
+  }
+
+  .addButton,
+  .removeButton,
+  .submitButton,
+  .goBackButton {
+    font-size: 0.95rem;
+    padding: 0.6rem 1rem;
+  }
+
+  .icon {
+    font-size: 2rem;
+  }
+}

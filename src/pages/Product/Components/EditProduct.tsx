@@ -11,11 +11,13 @@ import { MdEdit } from "react-icons/md";
 type Category = {
     _id?: string;
     name: string;
+    isActive?: boolean;
 }
 
  type Color = {
    _id: string;
   name: string;
+  isActive?: boolean;
  };
 
 type Products = {
@@ -202,7 +204,7 @@ const EditProduct = () => {
                 <label htmlFor="category">Category</label>
                   <select className={styles.input} {...register("category")}>
           <option className={styles.option} value="">Select Category</option>
-          {categories.map((cat) => (
+          {categories.filter(cat => cat.isActive !== false).map((cat) => (
             <option className={styles.option} key={cat._id} value={cat._id}>
               {cat.name}
             </option>
@@ -216,7 +218,7 @@ const EditProduct = () => {
           <div key={field.id} className={styles.variantRow}>
             <select className={styles.input} {...register(`variants.${index}.color` as const)}>
               <option className={styles.option} value="">Select Color</option>
-              {colors.map((color) => (
+              {colors.filter(color => color.isActive !== false).map((color) => (
                 <option className={styles.option} key={color._id} value={color._id}>
                   {color.name}
                 </option>
@@ -242,9 +244,11 @@ const EditProduct = () => {
           </div>
         ))}
         <div className={styles.buttonGroup}> 
+        {fields.length < colors.filter(color => color.isActive !== false).length && (
         <button className={styles.addButton} type="button" onClick={() => append({ color: "", amount: 0 })}>
-          Add Variant
+          Add Variant ({fields.length}/{colors.filter(color => color.isActive !== false).length})
         </button>
+        )}
       <button className={styles.submitButton} type="submit">
         Update Product
       </button>

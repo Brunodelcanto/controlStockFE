@@ -13,11 +13,13 @@ import { FaSearch } from "react-icons/fa";
 type Category = {
     _id?: string;
     name: string;
+    isActive?: boolean;
 }
 
 type Color = {
   _id: string;
   name: string;
+  isActive?: boolean;
 };
 
 type Products = {
@@ -299,7 +301,7 @@ const Products = () => {
 
         <select className={styles.select} {...register("category")}>
           <option className={styles.option} value="">Select Category</option>
-          {categories.map((cat) => (
+          {categories.filter(cat => cat.isActive !== false).map((cat) => (
             <option key={cat._id} value={cat._id}>
               {cat.name}
             </option>
@@ -314,7 +316,7 @@ const Products = () => {
           <div key={field.id} className={styles.variantRow}>
             <select className={styles.select} {...register(`variants.${index}.color` as const)}>
               <option className={styles.option} value="">Select Color</option>
-              {colors.map((color) => (
+              {colors.filter(color => color.isActive !== false).map((color) => (
                 <option className={styles.option} key={color._id} value={color._id}>
                   {color.name}
                 </option>
@@ -337,9 +339,9 @@ const Products = () => {
           </div>
         ))}
         <div className={styles.buttonGroup}>
-        {fields.length < colors.length && (
+        {fields.length < colors.filter(color => color.isActive !== false).length && (
           <button className={styles.addButton} type="button" onClick={() => append({ color: "", amount: 0 })}>
-            Add Variant ({fields.length}/{colors.length})
+            Add Variant ({fields.length}/{colors.filter(color => color.isActive !== false).length})
           </button>
         )}
 
@@ -369,8 +371,13 @@ const Products = () => {
         <ul className={styles.categoryProducts}>
           {groupedProducts[categoryName].map((product) => (
             <li key={product._id} 
-            onClick={(e) => { e.stopPropagation(); goToEditProduct(product._id!); }}
-            className={`${styles.productCard} ${!product.isActive ? styles.inactive : ""}`}>
+            onClick={(e) => { 
+              if (!product.isActive) return;
+              e.stopPropagation(); 
+              goToEditProduct(product._id!); 
+            }}
+            className={`${styles.productCard} ${!product.isActive ? styles.inactive : ""}`}
+            style={{ cursor: product.isActive ? 'pointer' : 'not-allowed' }}>
               <h3 className={styles.productTitle}>{product.name}</h3>
               <p className={styles.productPrice}>Price: ${product.price}</p>
               <ul className={styles.variantsList}>
@@ -380,8 +387,34 @@ const Products = () => {
                     <li key={idx} className={styles.variantItem}>
                       {colorName} - {v.amount} units
                       <div className={styles.buttons}>
-                        <button className={styles.increaseButton} onClick={(e) => { e.stopPropagation(); handleIncreaseStock(product._id!, v.color); }}>+</button>
-                        <button className={styles.reduceButton} onClick={(e) => { e.stopPropagation(); handleReduceStock(product._id!, v.color); }}>-</button>
+                        <button 
+                          className={styles.increaseButton} 
+                          onClick={(e) => { 
+                            if (!product.isActive) return;
+                            e.stopPropagation(); 
+                            handleIncreaseStock(product._id!, v.color); 
+                          }}
+                          disabled={!product.isActive}
+                          style={{ 
+                            opacity: product.isActive ? 1 : 0.5,
+                            cursor: product.isActive ? 'pointer' : 'not-allowed'
+                          }}>
+                          +
+                        </button>
+                        <button 
+                          className={styles.reduceButton} 
+                          onClick={(e) => { 
+                            if (!product.isActive) return;
+                            e.stopPropagation(); 
+                            handleReduceStock(product._id!, v.color); 
+                          }}
+                          disabled={!product.isActive}
+                          style={{ 
+                            opacity: product.isActive ? 1 : 0.5,
+                            cursor: product.isActive ? 'pointer' : 'not-allowed'
+                          }}>
+                          -
+                        </button>
                       </div>
                     </li>
                   );

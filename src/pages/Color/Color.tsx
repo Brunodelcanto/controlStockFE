@@ -169,7 +169,13 @@ const Color = () => {
             {colors && (
                 <ul className={styles.colorsList}>
                 {colors.map((item: Color) => (
-                    <li key={item._id} className={`${styles.colorContainer} ${!item.isActive? styles.inactiveColor : ''}`} onClick={() => goToEditColor(item._id!)}>
+                    <li key={item._id} 
+                        className={`${styles.colorContainer} ${!item.isActive? styles.inactiveColor : ''}`} 
+                        onClick={() => {
+                            if (!item.isActive) return;
+                            goToEditColor(item._id!);
+                        }}
+                        style={{ cursor: item.isActive ? 'pointer' : 'not-allowed' }}>
                         <h2 className={styles.colorName}>{item.name}</h2>
                         <div className={styles.buttonGroup}>
                         <button onClick={(e) => {e.stopPropagation(); if (item.isActive) {handleDeactivateColor(item._id!);} else {handleActivateColor(item._id!);}}} className={styles.actDesButton}>

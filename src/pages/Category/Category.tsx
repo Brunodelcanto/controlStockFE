@@ -166,7 +166,13 @@ const Category = () => {
             {categories && (
                 <ul className={styles.categoriesList}>
                 {categories.map((item: Categories) => (
-                    <li key={item._id} className={`${styles.categoryContainer} ${!item.isActive? styles.inactiveCategory : ''}`} onClick={() => goToEditCategory(item._id!)}>
+                    <li key={item._id} 
+                        className={`${styles.categoryContainer} ${!item.isActive? styles.inactiveCategory : ''}`} 
+                        onClick={() => {
+                            if (!item.isActive) return;
+                            goToEditCategory(item._id!);
+                        }}
+                        style={{ cursor: item.isActive ? 'pointer' : 'not-allowed' }}>
                         <h2 className={styles.categoryName}>{item.name}</h2>
                         <div className={styles.buttonGroup}>
                         <button onClick={(e) => {e.stopPropagation(); if (item.isActive) {handleDeactivateCategory(item._id!);} else {handleActivateCategory(item._id!);}}} className={styles.actDesButton}>

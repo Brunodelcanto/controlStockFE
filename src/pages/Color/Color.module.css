@@ -37,8 +37,16 @@
 
 
 .colorContainer.inactive {
- background-color: #5a2c2c;
-  box-shadow: 0 0 10px rgba(255, 0, 0, 0.3);
+  background-color: #3a3a3a;
+  box-shadow: 0 0 10px rgba(100, 100, 100, 0.2);
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.colorContainer.inactive:hover {
+  background-color: #3a3a3a;
+  transform: none;
+  box-shadow: 0 0 10px rgba(100, 100, 100, 0.2);
 }
 
 .colorsContainer {
@@ -50,8 +58,16 @@
 }
 
 .inactiveColor {
-  background-color: #5a2c2c;
-  box-shadow: 0 0 10px rgba(255, 0, 0, 0.3);
+  background-color: #3a3a3a;
+  box-shadow: 0 0 10px rgba(100, 100, 100, 0.2);
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.inactiveColor:hover {
+  background-color: #3a3a3a;
+  transform: none;
+  box-shadow: 0 0 10px rgba(100, 100, 100, 0.2);
 }
 
 .colorsList {

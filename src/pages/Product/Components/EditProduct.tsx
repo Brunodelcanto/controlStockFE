@@ -118,18 +118,8 @@ const EditProduct = () => {
         setTimeout(() => setErrorMessage(""), 2000);
         return;
       }
-
         try {            
-            const processedData = {
-                ...data,
-                price: Number(data.price),
-                variants: data.variants.map(variant => ({
-                    ...variant,
-                    amount: Number(variant.amount)
-                }))
-            };
-            await axios.patch(`http://localhost:3000/api/products/${id}`, processedData);
-            
+            await axios.patch(`http://localhost:3000/api/products/${id}`, data);
             setSuccessMessage("Product updated successfully!");
             setTimeout(() => { navigate('/products'); }, 1000);
         } catch (error) {

@@ -18,9 +18,9 @@ export const HomePage = () => {
         <AuthProvider>  
             <div className={styles.container}>
             <header className={styles.header}>
-                <div className={styles.logoContainer}>
+                {/* <div className={styles.logoContainer}>
                 <img src="/src/pages/HomePage/public/logo.png" alt="Logo" className={styles.logo} />
-                </div>
+                </div> */}
                 <button className={styles.logoutButton} onClick={() => auth?.signOut()}>Logout</button>
             </header>
             <main className={styles.main}>

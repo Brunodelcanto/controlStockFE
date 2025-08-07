@@ -94,9 +94,9 @@ const Color = () => {
             setTimeout(() => setSuccessMessage(""), 2000);
         } catch (error) {
             if (axios.isAxiosError(error) && error.response?.status === 400) {
-                setErrorMessage("Cannot deactivate color with active products! ⚠️");
+                setErrorMessage("Cannot deactivate color with active products!");
             } else {
-                setErrorMessage("An unexpected error occurred ⚠️");
+                setErrorMessage("An unexpected error occurred");
             }
             setTimeout(() => setErrorMessage(""), 2000);
         }
@@ -126,9 +126,9 @@ const Color = () => {
             setTimeout(() => setSuccessMessage(""), 2000);
         } catch (error) {
             if (axios.isAxiosError(error) && error.response?.status === 400) {
-                setErrorMessage("Cannot delete color with active products! ⚠️");
+                setErrorMessage("Cannot delete color with active products!");
             } else {
-                setErrorMessage("An unexpected error occurred ⚠️");
+                setErrorMessage("An unexpected error occurred");
             }
            setTimeout(() => setErrorMessage(""), 2000);
         } finally {

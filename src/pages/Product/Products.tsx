@@ -341,7 +341,7 @@ const Products = () => {
         <div className={styles.buttonGroup}>
         {fields.length < colors.filter(color => color.isActive !== false).length && (
           <button className={styles.addButton} type="button" onClick={() => append({ color: "", amount: 0 })}>
-            Add Variant ({fields.length}/{colors.filter(color => color.isActive !== false).length})
+            Add Color ({fields.length}/{colors.filter(color => color.isActive !== false).length})
           </button>
         )}
 

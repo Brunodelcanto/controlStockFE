@@ -15,7 +15,6 @@ type Category = {
 const validationsSchema = Joi.object<Category>({
     name: Joi.string().min(2).max(100).required().messages({
         "string.empty": "Name is required",
-        "string.min": "Name must be at least 2 characters long",
         "string.max": "Name must be at most 100 characters long",
         "any.required": "Name is required",
     })
@@ -61,11 +60,11 @@ const EditCategory = () => {
             setSuccessMessage("Category updated successfully!");
             setTimeout(() => { navigate('/categories'); }, 1000);
         } catch (error) {
-            console.error("Error updating color:", error);
+            console.error("Error updating category:", error);
             if (axios.isAxiosError(error)) {
                 console.error("Response data:", error.response?.data);
                 console.error("Response status:", error.response?.status);
-                setErrorMessage(error.response?.data?.message || "Color already exists! Please choose a different name.");
+                setErrorMessage(error.response?.data?.message || "Category already exists! Please choose a different name.");
             } else {
                 setErrorMessage("Unexpected error occurred");
             }

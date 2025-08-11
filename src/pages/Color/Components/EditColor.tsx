@@ -82,16 +82,16 @@ const EditColor = () => {
      return (
         <div className={styles.container}>
             <form onSubmit={handleSubmit(handleUpdate)} className={styles.form}>
-              <h1 className={styles.title}><MdEdit className={styles.icon} />Edit Color</h1>
-              <p className={styles.description}>Please write your changes below:</p>
-              <label className={styles.label}>Name:</label>
+              <h1 className={styles.title}><MdEdit className={styles.icon} />Editar Color</h1>
+              <p className={styles.description}>Por favor escribe tus cambios a continuación:</p>
+              <label className={styles.label}>Nombre:</label>
               <input className={styles.input} {...register("name")} />
               {errors.name && <p className={styles.error}>{errors.name.message}</p>}
             {successMessage && <p className={styles.success}>{successMessage}</p>}
             {errorMessage && <p className={styles.error}>{errorMessage}</p>}
             <div className={styles.buttonGroup}>
-                <button type="submit" className={styles.button}>Update Color</button>
-                <button type="button" className={styles.button} onClick={goBack}>Go Back</button>
+                <button type="submit" className={styles.button}>Actualizar Color</button>
+                <button type="button" className={styles.button} onClick={goBack}>Volver</button>
             </div>
              
             </form>

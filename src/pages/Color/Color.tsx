@@ -149,19 +149,19 @@ const Color = () => {
 
         return (
         <div className={styles.container}>
-            <h1 className={styles.title}><IoIosColorPalette className={styles.icon} />Colors Page</h1>
-            <p className={styles.description}>This is the colors page where you can view all product colors.</p>
-            {loading && <p>Loading colors...</p>}
+            <h1 className={styles.title}><IoIosColorPalette className={styles.icon} />Página de Colores</h1>
+            <p className={styles.description}>Esta es la página de colores donde puedes ver todos los colores de productos.</p>
+            {loading && <p>Cargando colores...</p>}
             {error && <p>{error.message}</p>}
             <div className={styles.formContainer}>
             {successMessage && <p className={styles.success}>{successMessage}</p>}
             {errorMessage && <p className={styles.error}>{errorMessage}</p>}
                 <form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
-                    <input className={styles.input} type="text" {...register("name")} placeholder="Color Name" />
+                    <input className={styles.input} type="text" {...register("name")} placeholder="Nombre del Color" />
                     {errors.name && <span className={styles.error}>{errors.name.message}</span>}
                     <div className={styles.buttonGroup}>
-                    <button type="submit" className={styles.submitButton}>Create Color</button>
-                     <button className={styles.goBackButton} onClick={goBack}>Go Back</button>
+                    <button type="submit" className={styles.submitButton}>Crear Color</button>
+                     <button className={styles.goBackButton} onClick={goBack}>Volver</button>
                     </div>
                 </form>
             </div>
@@ -179,9 +179,9 @@ const Color = () => {
                         <h2 className={styles.colorName}>{item.name}</h2>
                         <div className={styles.buttonGroup}>
                         <button onClick={(e) => {e.stopPropagation(); if (item.isActive) {handleDeactivateColor(item._id!);} else {handleActivateColor(item._id!);}}} className={styles.actDesButton}>
-                        {item.isActive ? "Deactivate" : "Activate"} </button>
+                        {item.isActive ? "Desactivar" : "Activar"} </button>
                         <button onClick={(e) => {e.stopPropagation(); confirmDeleteColor(item._id!);}} className={styles.deleteButton}>
-                            Delete
+                            Eliminar
                         </button>
 
                         </div>
@@ -193,9 +193,9 @@ const Color = () => {
             {showDeletePopup && (
               <div className={styles.deletePopup}>
                 <div className={styles.popup}>
-                  <p>Are you sure you want to delete this color?</p>
+                  <p>¿Estás seguro de que quieres eliminar este color?</p>
                   <div className={styles.popupButtons}>
-                    <button className={styles.confirmButton} onClick={() => handleDeleteColor(colorToDelete!)}>Yes</button>
+                    <button className={styles.confirmButton} onClick={() => handleDeleteColor(colorToDelete!)}>Sí</button>
                     <button className={styles.cancelButton} onClick={() => setShowDeletePopup(false)}>No</button>
                   </div>
                 </div>

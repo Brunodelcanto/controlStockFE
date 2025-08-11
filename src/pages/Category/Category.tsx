@@ -146,19 +146,19 @@ const Category = () => {
 
     return (
         <div className={styles.container}>
-            <h1 className={styles.title}><HiClipboard className={styles.icon} />Categories Page</h1>
-            <p className={styles.description}>This is the categories page where you can view all product categories.</p>
-            {loading && <p>Loading categories...</p>}
+            <h1 className={styles.title}><HiClipboard className={styles.icon} />Página de Categorías</h1>
+            <p className={styles.description}>Esta es la página de categorías donde puedes ver todas las categorías de productos.</p>
+            {loading && <p>Cargando categorías...</p>}
             {error && <p>{error.message}</p>}
             <div className={styles.formContainer}>
             {successMessage && <p className={styles.success}>{successMessage}</p>}
             {errorMessage && <p className={styles.error}>{errorMessage}</p>}
                 <form  className={styles.form} onSubmit={handleSubmit(onSubmit)}>
-                    <input className={styles.input} type="text" {...register("name")} placeholder="Category Name" />
+                    <input className={styles.input} type="text" {...register("name")} placeholder="Nombre de Categoría" />
                     {errors.name && <span className={styles.error}>{errors.name.message}</span>}
                     <div className={styles.buttonGroup}>
-                    <button type="submit" className={styles.submitButton}>Create Category</button>
-                    <button className={styles.goBackButton} onClick={goBack}>Go Back</button>
+                    <button type="submit" className={styles.submitButton}>Crear Categoría</button>
+                    <button className={styles.goBackButton} onClick={goBack}>Volver</button>
                     </div>
                 </form>
             </div>
@@ -176,9 +176,9 @@ const Category = () => {
                         <h2 className={styles.categoryName}>{item.name}</h2>
                         <div className={styles.buttonGroup}>
                         <button onClick={(e) => {e.stopPropagation(); if (item.isActive) {handleDeactivateCategory(item._id!);} else {handleActivateCategory(item._id!);}}} className={styles.actDesButton}>
-                        {item.isActive ? "Deactivate" : "Activate"} </button>
+                        {item.isActive ? "Desactivar" : "Activar"} </button>
                         <button onClick={(e) => {e.stopPropagation(); confirmDeleteCategory(item._id!);}} className={styles.deleteButton}>
-                            Delete
+                            Eliminar
                         </button>
                         </div>
                     </li>
@@ -189,9 +189,9 @@ const Category = () => {
             {showDeletePopup && (
               <div className={styles.deletePopup}>
                 <div className={styles.popup}>
-                  <p>Are you sure you want to delete this category?</p>
+                  <p>¿Estás seguro de que quieres eliminar esta categoría?</p>
                   <div className={styles.popupButtons}>
-                    <button className={styles.confirmButton} onClick={() => handleDeleteCategory(categoryToDelete!)}>Yes</button>
+                    <button className={styles.confirmButton} onClick={() => handleDeleteCategory(categoryToDelete!)}>Sí</button>
                     <button className={styles.cancelButton} onClick={() => setShowDeletePopup(false)}>No</button>
                   </div>
                 </div>

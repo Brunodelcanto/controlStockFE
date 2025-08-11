@@ -170,8 +170,8 @@ const EditProduct = () => {
         {errorMessage && <p className={styles.error}>{errorMessage}</p>}
         <form onSubmit={handleSubmit(handleUpdate)} className={styles.form}>
             <div className={styles.formGroup}>
-              <h1><MdEdit className={styles.icon} />Edit Product</h1>
-                <label htmlFor="name">Name</label>
+              <h1><MdEdit className={styles.icon} />Editar Producto</h1>
+                <label htmlFor="name">Nombre</label>
                 <input
                     className={styles.input}
                     type="text"
@@ -181,7 +181,7 @@ const EditProduct = () => {
                 {errors.name && <p className={styles.error}>{errors.name.message}</p>}
             </div>
             <div className={styles.formGroup}>
-                <label htmlFor="price">Price</label>
+                <label htmlFor="price">Precio</label>
                 <input
                     className={styles.input}
                     type="number"
@@ -191,9 +191,9 @@ const EditProduct = () => {
                 {errors.price && <p className={styles.error}>{errors.price.message}</p>}
             </div>
             <div className={styles.formGroup}>
-                <label htmlFor="category">Category</label>
+                <label htmlFor="category">Categoría</label>
                   <select className={styles.input} {...register("category")}>
-          <option className={styles.option} value="">Select Category</option>
+          <option className={styles.option} value="">Seleccionar Categoría</option>
           {categories.filter(cat => cat.isActive !== false).map((cat) => (
             <option className={styles.option} key={cat._id} value={cat._id}>
               {cat.name}
@@ -203,11 +203,11 @@ const EditProduct = () => {
                 {errors.category && <p className={styles.error}>{errors.category.message}</p>}
             </div>
             <div className={styles.formGroup}>
-                <label htmlFor="variants">Variants</label>
+                <label htmlFor="variants">Variantes</label>
                  {fields.map((field, index) => (
           <div key={field.id} className={styles.variantRow}>
             <select className={styles.input} {...register(`variants.${index}.color` as const)}>
-              <option className={styles.option} value="">Select Color</option>
+              <option className={styles.option} value="">Seleccionar Color</option>
               {colors.filter(color => color.isActive !== false).map((color) => (
                 <option className={styles.option} key={color._id} value={color._id}>
                   {color.name}
@@ -220,13 +220,13 @@ const EditProduct = () => {
             <input
               className={styles.input}
               type="number"
-              placeholder="Amount"
+              placeholder="Cantidad"
               {...register(`variants.${index}.amount` as const)}
             />
             {errors.variants?.[index]?.amount && (<span className={styles.error}>{errors.variants[index].amount.message}</span>)}
             { index > 0 && (
             <button className={styles.removeButton} type="button" onClick={() => remove(index)}>
-              Remove
+              Eliminar
             </button>
             )
             }
@@ -236,13 +236,13 @@ const EditProduct = () => {
         <div className={styles.buttonGroup}> 
         {fields.length < colors.filter(color => color.isActive !== false).length && (
         <button className={styles.addButton} type="button" onClick={() => append({ color: "", amount: 0 })}>
-          Add Color ({fields.length}/{colors.filter(color => color.isActive !== false).length})
+          Agregar Color ({fields.length}/{colors.filter(color => color.isActive !== false).length})
         </button>
         )}
       <button className={styles.submitButton} type="submit">
-        Update Product
+        Actualizar Producto
       </button>
-    <button className={styles.goBackButton} onClick={goBack}>Go Back</button>
+    <button className={styles.goBackButton} onClick={goBack}>Volver</button>
       </div>
         </div>
     </form>

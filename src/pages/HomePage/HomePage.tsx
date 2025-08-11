@@ -7,7 +7,7 @@ import { FaHome } from "react-icons/fa";
 const Sections = [
 
     {
-        title: 'Products',
+        title: 'Productos',
         link: "/products"
     },
 
@@ -21,12 +21,12 @@ export const HomePage = () => {
                 {/* <div className={styles.logoContainer}>
                 <img src="/src/pages/HomePage/public/logo.png" alt="Logo" className={styles.logo} />
                 </div> */}
-                <button className={styles.logoutButton} onClick={() => auth?.signOut()}>Logout</button>
+                <button className={styles.logoutButton} onClick={() => auth?.signOut()}>Cerrar Sesión</button>
             </header>
             <main className={styles.main}>
             <FaHome className={styles.homeIcon} />
-            <p className={styles.welcomeMessage}>Welcome to the home page!</p>
-            <p className={styles.description}>From here you can navigate to different sections of the app.</p>
+            <p className={styles.welcomeMessage}>¡Bienvenido a la página de inicio!</p>
+            <p className={styles.description}>Desde aquí puedes navegar a diferentes secciones de la aplicación.</p>
             <div className={styles.Sections}>
                 {Sections.map((section) => (
                     <Card title={section.title} link={section.link}/>

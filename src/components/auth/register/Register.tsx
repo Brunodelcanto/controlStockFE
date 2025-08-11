@@ -58,12 +58,12 @@ export const Register = () => {
   return (
     <div className={styles.container}>
       <form onSubmit={handleSubmit(handleRegister)} className={styles.form}>
-        <h1 className={styles.title}>Register</h1>
+        <h1 className={styles.title}>Registrarse</h1>
 
         <input
           className={styles.textInput}
           {...register("email")}
-          placeholder="Email"
+          placeholder="Correo electrónico"
         />
         {errors.email && <span className={styles.error}>{errors.email.message}</span>}
 
@@ -71,17 +71,17 @@ export const Register = () => {
           className={styles.textInput}
           type="password"
           {...register("password")}
-          placeholder="Password"
+          placeholder="Contraseña"
         />
         {errors.password && <span className={styles.error}>{errors.password.message}</span>}
 
         <button type="submit" className={styles.button}>
-          {isRegistering ? "Registrando..." : "Register"}
+          {isRegistering ? "Registrando..." : "Registrarse"}
         </button>
         {errorMessage && <span className={styles.error}>{errorMessage}</span>}
 
         <div className={styles.register}>
-          ¿Already have an account? <Link className={styles.link} to="/login">Login</Link>
+          ¿Ya tienes una cuenta? <Link className={styles.link} to="/login">Iniciar Sesión</Link>
         </div>
       </form>
     </div>

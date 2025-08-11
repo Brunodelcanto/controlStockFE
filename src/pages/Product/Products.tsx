@@ -70,11 +70,11 @@ const validationsSchema = Joi.object({
 
 const Sections = [
       {
-        title: 'Colors',
+        title: 'Colores',
         link: "/colors"
     },
     {
-        title: 'Categories',
+        title: 'Categorías',
         link: "/categories"
     },
 ]
@@ -281,7 +281,7 @@ const Products = () => {
   <div className={styles.headerTop}>
     <h1 className={styles.title}>
       <HiArchive className={styles.icon} />
-      Products
+      Productos
     </h1>
     <HomeButton />
   </div>
@@ -296,11 +296,11 @@ const Products = () => {
             
       <main className={styles.main}>
       <form onSubmit={handleSubmit(onSubmit)} className={styles.form}>
-        <input className={styles.input} type="text" placeholder="Name" {...register("name")} />
+        <input className={styles.input} type="text" placeholder="Nombre" {...register("name")} />
         {errors.name && <span className={styles.error}>{errors.name.message}</span>}
 
         <select className={styles.select} {...register("category")}>
-          <option className={styles.option} value="">Select Category</option>
+          <option className={styles.option} value="">Seleccionar Categoría</option>
           {categories.filter(cat => cat.isActive !== false).map((cat) => (
             <option key={cat._id} value={cat._id}>
               {cat.name}
@@ -309,13 +309,13 @@ const Products = () => {
         </select>
         {errors.category && <span className={styles.error}>{errors.category.message}</span>}
 
-        <input className={styles.input} type="number" placeholder="Price" {...register("price")} />
+        <input className={styles.input} type="number" placeholder="Precio" {...register("price")} />
         {errors.price && <span className={styles.error}>{errors.price.message}</span>}
 
         {fields.map((field, index) => (
           <div key={field.id} className={styles.variantRow}>
             <select className={styles.select} {...register(`variants.${index}.color` as const)}>
-              <option className={styles.option} value="">Select Color</option>
+              <option className={styles.option} value="">Seleccionar Color</option>
               {colors.filter(color => color.isActive !== false).map((color) => (
                 <option className={styles.option} key={color._id} value={color._id}>
                   {color.name}
@@ -327,13 +327,13 @@ const Products = () => {
             )}
             <input className={styles.input}
               type="number"
-              placeholder="Amount"
+              placeholder="Cantidad"
               {...register(`variants.${index}.amount` as const)}
             />
             {errors.variants?.[index]?.amount && (<span className={styles.error}>{errors.variants[index].amount.message}</span>)}
             {index > 0 && (
               <button className={styles.removeButton} type="button" onClick={() => remove(index)}>
-                Remove
+                Eliminar
               </button>
             )}
           </div>
@@ -341,18 +341,18 @@ const Products = () => {
         <div className={styles.buttonGroup}>
         {fields.length < colors.filter(color => color.isActive !== false).length && (
           <button className={styles.addButton} type="button" onClick={() => append({ color: "", amount: 0 })}>
-            Add Color ({fields.length}/{colors.filter(color => color.isActive !== false).length})
+            Agregar Color ({fields.length}/{colors.filter(color => color.isActive !== false).length})
           </button>
         )}
 
-        <button className={styles.submitButton} type="submit">Create Product</button>
+        <button className={styles.submitButton} type="submit">Crear Producto</button>
         </div>
       </form>
       <div className={styles.searchContainer}>
         <FaSearch className={styles.searchIcon} />
         <input
           type="text"
-          placeholder="Search product"
+          placeholder="Buscar producto"
           onChange={(e) => searchProductByName(e.target.value)}
           className={styles.searchInput}
         />
@@ -360,7 +360,7 @@ const Products = () => {
       {successMessage && <p className={styles.success}>{successMessage}</p>}
       {errorMessage && <p className={styles.error}>{errorMessage}</p>}
 {loading ? (
-  <p>Loading...</p>
+  <p>Cargando...</p>
 ) : error ? (
   <p>Error: {error.message}</p>
 ) : (
@@ -379,13 +379,13 @@ const Products = () => {
             className={`${styles.productCard} ${!product.isActive ? styles.inactive : ""}`}
             style={{ cursor: product.isActive ? 'pointer' : 'not-allowed' }}>
               <h3 className={styles.productTitle}>{product.name}</h3>
-              <p className={styles.productPrice}>Price: ${product.price}</p>
+              <p className={styles.productPrice}>Precio: ${product.price}</p>
               <ul className={styles.variantsList}>
                 {product.variants.map((v, idx) => {
                   const colorName = colors.find((c) => c._id === v.color)?.name || v.color;
                   return (
                     <li key={idx} className={styles.variantItem}>
-                      {colorName} - {v.amount} units
+                      {colorName} - {v.amount} unidades
                       <div className={styles.buttons}>
                         <button 
                           className={styles.increaseButton} 
@@ -420,13 +420,13 @@ const Products = () => {
                   );
                 })}
               </ul>
-              <p className={styles.productTotal}>Total units: {product.variants.reduce((sum, v) => sum + v.amount, 0)}</p>
+              <p className={styles.productTotal}>Unidades totales: {product.variants.reduce((sum, v) => sum + v.amount, 0)}</p>
               <div className={styles.actionGroup}>
               <button onClick={(e) => {e.stopPropagation(); if (product.isActive) {handleDeactivateProduct(product._id!);} else {handleActivateProduct(product._id!);}}} className={styles.actDesButton}>
-                {product.isActive ? "Deactivate" : "Activate"}
+                {product.isActive ? "Desactivar" : "Activar"}
               </button>
                   <button className={styles.deleteButton} onClick={(e) => { e.stopPropagation(); confirmDeleteProduct(product._id!); }}>
-                Delete
+                Eliminar
               </button>
               </div>
             </li>
@@ -440,9 +440,9 @@ const Products = () => {
 {showDeletePopup && (
   <div className={styles.deletePopup}>
     <div className={styles.popup}>
-      <p>Are you sure you want to delete this product?</p>
+      <p>¿Estás seguro de que quieres eliminar este producto?</p>
       <div className={styles.popupButtons}>
-        <button className={styles.confirmButton} onClick={() => handleDeleteProduct(productToDelete!)}>Yes</button>
+        <button className={styles.confirmButton} onClick={() => handleDeleteProduct(productToDelete!)}>Sí</button>
         <button className={styles.cancelButton} onClick={() => setShowDeletePopup(false)}>No</button>
       </div>
     </div>

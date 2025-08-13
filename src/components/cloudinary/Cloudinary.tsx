@@ -34,7 +34,6 @@ export default function UploadImage({ onUpload }: UploadImageProps) {
     setIsUploading(true);
     
     try {
-      // Opción 1: Intentar usar el backend primero
       const formData = new FormData();
       formData.append("image", file);
 
@@ -42,9 +41,6 @@ export default function UploadImage({ onUpload }: UploadImageProps) {
         const res = await axios.post("http://localhost:3000/api/upload", formData, {
           headers: { "Content-Type": "multipart/form-data" },
         });
-
-        console.log("Respuesta del backend:", res);
-        console.log("Data de la respuesta:", res.data);
 
         let url, public_id;
         

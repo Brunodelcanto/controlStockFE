@@ -9,6 +9,8 @@ import { useNavigate } from "react-router";
 import { Card } from "../HomePage/components/Card";
 import { HiArchive } from "react-icons/hi";
 import { FaSearch } from "react-icons/fa";
+import UploadImage from "../../components/cloudinary/Cloudinary";
+import type { ImageData } from "../../components/cloudinary/Cloudinary";
 
 type Category = {
     _id?: string;
@@ -31,7 +33,8 @@ type Products = {
        color: string;
        amount: number;
    }[];
-    isActive?: boolean;
+   image?: ImageData;
+   isActive?: boolean;
 };
 
 const validationsSchema = Joi.object({
@@ -90,6 +93,7 @@ const Products = () => {
     const [errorMessage, setErrorMessage] = useState("");
     const [showDeletePopup, setShowDeletePopup] = useState(false);
     const [productToDelete, setProductToDelete] = useState<string | null>(null);
+    const [imageData, setImageData] = useState<ImageData | null>(null);
 
     const {
         register,
@@ -170,6 +174,11 @@ const Products = () => {
         setTimeout(() => setErrorMessage(""), 2000);
         return;
       }
+      if (!imageData) {
+        setErrorMessage("Debes subir una imagen para el producto.");
+        setTimeout(() => setErrorMessage(""), 2000);
+        return;
+      }
 
     try {
       const alreadyExists = products.some(
@@ -180,10 +189,17 @@ const Products = () => {
         setTimeout(() => setErrorMessage(""), 2000);
         return;
       }
-        await axios.post("http://localhost:3000/api/products", data);
+
+      const productData = {
+        ...data,
+        image: imageData
+      };
+
+      await axios.post("http://localhost:3000/api/products", productData);
       setSuccessMessage("Product created successfully!");
       setTimeout(() => setSuccessMessage(""), 2000);
       reset({ name: "", price: 0, category: "", variants: [{ color: "", amount: 0 }] });
+      setImageData(null);
       fetchProducts();
     } catch (error) {
       console.error("Error creating product:", error);
@@ -345,6 +361,11 @@ const Products = () => {
           </button>
         )}
 
+        <div className={styles.imageSection}>
+          <label>Imagen del producto:</label>
+          <UploadImage onUpload={(imageData) => setImageData(imageData)} />
+        </div>
+
         <button className={styles.submitButton} type="submit">Crear Producto</button>
         </div>
       </form>
@@ -378,6 +399,15 @@ const Products = () => {
             }}
             className={`${styles.productCard} ${!product.isActive ? styles.inactive : ""}`}
             style={{ cursor: product.isActive ? 'pointer' : 'not-allowed' }}>
+              {product.image && (
+                <div className={styles.productImageContainer}>
+                  <img 
+                    src={product.image.url} 
+                    alt={product.name}
+                    className={styles.productImage}
+                  />
+                </div>
+              )}
               <h3 className={styles.productTitle}>{product.name}</h3>
               <p className={styles.productPrice}>Precio: ${product.price}</p>
               <ul className={styles.variantsList}>
@@ -440,9 +470,9 @@ const Products = () => {
 {showDeletePopup && (
   <div className={styles.deletePopup}>
     <div className={styles.popup}>
-      <p>¿Estás seguro de que quieres eliminar este producto?</p>
+      <p>Are you sure you want to delete this product?</p>
       <div className={styles.popupButtons}>
-        <button className={styles.confirmButton} onClick={() => handleDeleteProduct(productToDelete!)}>Sí</button>
+        <button className={styles.confirmButton} onClick={() => handleDeleteProduct(productToDelete!)}>Yes</button>
         <button className={styles.cancelButton} onClick={() => setShowDeletePopup(false)}>No</button>
       </div>
     </div>

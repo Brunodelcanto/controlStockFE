@@ -1,5 +1,6 @@
 import { useState } from "react";
 import axios from "axios";
+import { API_ENDPOINTS } from "../../config/api";
 import styles from "../../pages/Product/Products.module.css";
 
 // Definir el tipo de imagen que contiene url y public_id
@@ -38,7 +39,7 @@ export default function UploadImage({ onUpload }: UploadImageProps) {
       formData.append("image", file);
 
       try {
-        const res = await axios.post("http://localhost:3000/api/upload", formData, {
+        const res = await axios.post(API_ENDPOINTS.UPLOAD, formData, {
           headers: { "Content-Type": "multipart/form-data" },
         });
 

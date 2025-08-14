@@ -7,6 +7,7 @@ import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router";
 import { useFieldArray } from "react-hook-form";
 import { MdEdit } from "react-icons/md";
+import { API_ENDPOINTS } from "../../../config/api";
 
 type Category = {
     _id?: string;
@@ -94,7 +95,7 @@ const EditProduct = () => {
     useEffect(() => {
         const fetchProduct = async () => {
             try {
-                const response = await axios.get(`http://localhost:3000/api/products/${id}`);
+                const response = await axios.get(API_ENDPOINTS.product(id!));
                 const product = response.data.data;
                 setValue("name", product.name);
                 setValue("price", product.price);
@@ -119,7 +120,7 @@ const EditProduct = () => {
         return;
       }
         try {            
-            await axios.patch(`http://localhost:3000/api/products/${id}`, data);
+            await axios.patch(API_ENDPOINTS.product(id!), data);
             setSuccessMessage("Product updated successfully!");
             setTimeout(() => { navigate('/products'); }, 1000);
         } catch (error) {
@@ -137,7 +138,7 @@ const EditProduct = () => {
     useEffect(() => {
         const fetchCategories = async () => {
             try {
-                const response = await axios.get("http://localhost:3000/api/categories");
+                const response = await axios.get(API_ENDPOINTS.CATEGORIES);
                 setCategories(response.data.data);
             } catch (error) {
                 console.error("Error fetching categories:", error);
@@ -149,7 +150,7 @@ const EditProduct = () => {
     useEffect(() => {
         const fetchColors = async () => {
             try {
-                const response = await axios.get("http://localhost:3000/api/colors");
+                const response = await axios.get(API_ENDPOINTS.COLORS);
                 setColors(response.data.data);
             } catch (error) {
                 console.error("Error fetching colors:", error);

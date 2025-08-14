@@ -6,6 +6,7 @@ import { joiResolver } from '@hookform/resolvers/joi';
 import Joi from 'joi';
 import { useNavigate } from 'react-router';
 import { HiClipboard } from "react-icons/hi";
+import { API_ENDPOINTS } from "../../config/api";
 
 type Categories = {
     _id?: string;
@@ -43,7 +44,7 @@ const Category = () => {
 
     const fetchCategories = async () => {
         try {
-            const response = await axios.get ("http://localhost:3000/api/categories");
+            const response = await axios.get(API_ENDPOINTS.CATEGORIES);
             setCategories(response.data.data);
         } catch (err) {
             if (err instanceof Error) {
@@ -72,7 +73,7 @@ const Category = () => {
                 setTimeout(() => setErrorMessage(""), 2000);
                 return;
             }
-            const response = await axios.post("http://localhost:3000/api/categories", sendData);
+            const response = await axios.post(API_ENDPOINTS.CATEGORIES, sendData);
             setSuccessMessage("Category created successfully!");
             setTimeout(() => setSuccessMessage(""), 2000);
             reset();
@@ -84,8 +85,8 @@ const Category = () => {
 
     const handleDeactivateCategory = async (id: string) => {
         try {
-            await axios.patch(`http://localhost:3000/api/categories/${id}/deactivate`);
-            const res = await axios.get("http://localhost:3000/api/categories");
+            await axios.patch(API_ENDPOINTS.category(id) + '/deactivate');
+            const res = await axios.get(API_ENDPOINTS.CATEGORIES);
             setCategories(res.data.data);
             setSuccessMessage("Category deactivated successfully!");
             setTimeout(() => setSuccessMessage(""), 2000);
@@ -101,8 +102,8 @@ const Category = () => {
 
     const handleActivateCategory = async (id: string) => {
         try {
-            await axios.patch(`http://localhost:3000/api/categories/${id}/activate`);
-            const res = await axios.get("http://localhost:3000/api/categories");
+            await axios.patch(API_ENDPOINTS.category(id) + '/activate');
+            const res = await axios.get(API_ENDPOINTS.CATEGORIES);
             setCategories(res.data.data);
         } catch (error) {
             console.error(error);
@@ -116,8 +117,8 @@ const Category = () => {
 
     const handleDeleteCategory = async (id: string) => {
         try {
-            await axios.delete(`http://localhost:3000/api/categories/${id}`);
-            const res = await axios.get("http://localhost:3000/api/categories");
+            await axios.delete(API_ENDPOINTS.category(id));
+            const res = await axios.get(API_ENDPOINTS.CATEGORIES);
             setCategories(res.data.data);
             setSuccessMessage("Category deleted successfully!");
             setTimeout(() => setSuccessMessage(""), 2000);

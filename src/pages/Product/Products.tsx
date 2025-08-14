@@ -11,6 +11,7 @@ import { HiArchive } from "react-icons/hi";
 import { FaSearch } from "react-icons/fa";
 import UploadImage from "../../components/cloudinary/Cloudinary";
 import type { ImageData } from "../../components/cloudinary/Cloudinary";
+import { API_ENDPOINTS } from "../../config/api";
 
 type Category = {
     _id?: string;
@@ -128,7 +129,7 @@ const Products = () => {
 
     const fetchProducts = async () => {
     try {
-        const response = await axios.get("http://localhost:3000/api/products");
+        const response = await axios.get(API_ENDPOINTS.PRODUCTS);
         setProducts(response.data.data);
     } catch (err) {
         if (err instanceof Error) {
@@ -143,7 +144,7 @@ const Products = () => {
 
  const fetchCategories = async () => {
     try {
-      const response = await axios.get("http://localhost:3000/api/categories");
+      const response = await axios.get(API_ENDPOINTS.CATEGORIES);
       setCategories(response.data.data);
     } catch (err) {
       console.error("Error fetching categories:", err);
@@ -152,7 +153,7 @@ const Products = () => {
 
    const fetchColors = async () => {
     try {
-      const response = await axios.get("http://localhost:3000/api/colors");
+      const response = await axios.get(API_ENDPOINTS.COLORS);
       setColors(response.data.data);
     } catch (err) {
       console.error("Error fetching colors:", err);
@@ -195,7 +196,7 @@ const Products = () => {
         image: imageData
       };
 
-      await axios.post("http://localhost:3000/api/products", productData);
+      await axios.post(API_ENDPOINTS.PRODUCTS, productData);
       setSuccessMessage("Product created successfully!");
       setTimeout(() => setSuccessMessage(""), 2000);
       reset({ name: "", price: 0, category: "", variants: [{ color: "", amount: 0 }] });
@@ -208,8 +209,8 @@ const Products = () => {
 
         const handleDeactivateProduct = async (id: string) => {
         try {
-            await axios.patch(`http://localhost:3000/api/products/${id}/deactivate`);
-            const res = await axios.get("http://localhost:3000/api/products");
+            await axios.patch(API_ENDPOINTS.productDeactivate(id));
+            const res = await axios.get(API_ENDPOINTS.PRODUCTS);
             setProducts(res.data.data);
         } catch (error) {
             console.error(error);
@@ -218,8 +219,8 @@ const Products = () => {
 
     const handleActivateProduct = async (id: string) => {
         try {
-            await axios.patch(`http://localhost:3000/api/products/${id}/activate`);
-            const res = await axios.get("http://localhost:3000/api/products");
+            await axios.patch(API_ENDPOINTS.productActivate(id));
+            const res = await axios.get(API_ENDPOINTS.PRODUCTS);
             setProducts(res.data.data);
         } catch (error) {
             console.error(error);
@@ -233,8 +234,8 @@ const Products = () => {
 
     const handleDeleteProduct = async (id: string) => {
         try {
-            await axios.delete(`http://localhost:3000/api/products/${id}`);
-            const res = await axios.get("http://localhost:3000/api/products");
+            await axios.delete(API_ENDPOINTS.product(id));
+            const res = await axios.get(API_ENDPOINTS.PRODUCTS);
             setProducts(res.data.data);
         } catch (error) {
             console.error(error);
@@ -252,12 +253,12 @@ const Products = () => {
 
     const handleReduceStock= async (id: string, colorId: string, amount: number = 1) => {
         try {
-            await axios.patch(`http://localhost:3000/api/products/${id}/adjust-stock`, { 
+            await axios.patch(API_ENDPOINTS.productAdjustStock(id), { 
               colorId,
               amount,
               action: "decrease" 
             });
-            const res = await axios.get("http://localhost:3000/api/products");
+            const res = await axios.get(API_ENDPOINTS.PRODUCTS);
             setProducts(res.data.data);
         } catch (error) {
             console.error(error);
@@ -266,12 +267,12 @@ const Products = () => {
 
      const handleIncreaseStock= async (id: string, colorId: string, amount: number = 1) => {
         try {
-            await axios.patch(`http://localhost:3000/api/products/${id}/adjust-stock`, { 
+            await axios.patch(API_ENDPOINTS.productAdjustStock(id), { 
               colorId,
               amount,
               action: "increase" 
             });
-            const res = await axios.get("http://localhost:3000/api/products");
+            const res = await axios.get(API_ENDPOINTS.PRODUCTS);
             setProducts(res.data.data);
         } catch (error) {
             console.error(error);
@@ -284,7 +285,7 @@ const Products = () => {
 
        const searchProductByName = async (name: string) => {
           try {
-              const response = await axios.get(`http://localhost:3000/api/products/search?name=${name}`);
+              const response = await axios.get(API_ENDPOINTS.productSearch(name));
               setProducts(response.data.data);
           } catch (error) {
               console.error("Error searching product:", error);

@@ -627,6 +627,82 @@ ul {
   gap: 1rem;
   justify-content: center;
 }
+.imageSection {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding: 1.5rem;
+  background-color: #1a1a24;
+  border-radius: 12px;
+  border: 2px dashed #3a3a4d;
+  margin: 1rem 0;
+  transition: all 0.3s ease;
+}
+
+.imageSection:hover {
+  border-color: #cca281;
+  background-color: #1f1f2a;
+}
+
+.imageSection label {
+  font-weight: 600;
+  color: #cca281;
+  font-size: 1rem;
+  text-align: center;
+}
+
+.imageSection > div {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+
+.imageSection img {
+  max-width: 300px;
+  max-height: 300px;
+  object-fit: cover;
+  border-radius: 12px;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4);
+}
+
+.imagePreview {
+  max-width: 300px;
+  max-height: 300px;
+  width: auto;
+  height: auto;
+  object-fit: cover;
+  border-radius: 12px;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4);
+  margin-top: 15px;
+}
+
+
+.productImageContainer {
+  width: 100%;
+  height: auto;
+  min-height: 180px;
+  margin-bottom: 1rem;
+  border-radius: 8px;
+  overflow: hidden;
+  background-color: #1a1a24;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.productImage {
+  width: 100%;
+  height: auto;
+  max-height: 250px;
+  object-fit: cover;
+  border-radius: 8px;
+  transition: transform 0.3s ease;
+}
+
+.productCard:hover .productImage {
+  transform: scale(1.05);
+}
 
 @media (max-width: 768px) {
   .headerTop {
@@ -749,83 +825,4 @@ ul {
   }
 }
 
-/* Sección para subir imagen - Mejorada */
-.imageSection {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-  padding: 1.5rem;
-  background-color: #1a1a24;
-  border-radius: 12px;
-  border: 2px dashed #3a3a4d;
-  margin: 1rem 0;
-  transition: all 0.3s ease;
-}
-
-.imageSection:hover {
-  border-color: #cca281;
-  background-color: #1f1f2a;
-}
-
-.imageSection label {
-  font-weight: 600;
-  color: #cca281;
-  font-size: 1rem;
-  text-align: center;
-}
-
-/* Estilos para el componente de subir imagen */
-.imageSection > div {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 1rem;
-}
-
-/* Vista previa de imagen en el formulario */
-.imageSection img {
-  max-width: 300px;
-  max-height: 300px;
-  object-fit: cover;
-  border-radius: 12px;
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4);
-}
-
-.imagePreview {
-  max-width: 300px;
-  max-height: 300px;
-  width: auto;
-  height: auto;
-  object-fit: cover;
-  border-radius: 12px;
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4);
-  margin-top: 15px;
-}
-
-/* Estilos mejorados para mostrar imagen del producto en las cards */
-.productImageContainer {
-  width: 100%;
-  height: auto;
-  min-height: 180px;
-  margin-bottom: 1rem;
-  border-radius: 8px;
-  overflow: hidden;
-  background-color: #1a1a24;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.productImage {
-  width: 100%;
-  height: auto;
-  max-height: 250px;
-  object-fit: cover;
-  border-radius: 8px;
-  transition: transform 0.3s ease;
-}
-
-.productCard:hover .productImage {
-  transform: scale(1.05);
-}
 

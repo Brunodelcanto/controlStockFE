@@ -6,6 +6,7 @@ import { useNavigate, useParams } from "react-router";
 import styles from './EditColor.module.css';
 import { useEffect, useState } from "react";
 import { MdEdit } from "react-icons/md";
+import { API_ENDPOINTS } from "../../../config/api";
 
 type Color = {
     _id: string;
@@ -39,7 +40,7 @@ const EditColor = () => {
           useEffect(() => {
         const fetchColor = async () => {
             try {
-                const response = await axios.get(`http://localhost:3000/api/colors/${id}`);
+                const response = await axios.get(API_ENDPOINTS.color(id!));
                 const color = response.data.data;
                 setValue("name", color.name);
             } catch (error) {
@@ -57,7 +58,7 @@ const EditColor = () => {
                 name: data.name,
             }
 
-            await axios.patch(`http://localhost:3000/api/colors/${id}`, {
+            await axios.patch(API_ENDPOINTS.color(id!), {
                 ...processedData,
             });
             setSuccessMessage("Color updated successfully!");

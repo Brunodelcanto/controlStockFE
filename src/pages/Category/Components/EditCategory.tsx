@@ -6,6 +6,7 @@ import { useNavigate, useParams } from "react-router";
 import styles from './EditCategory.module.css';
 import { useEffect, useState } from "react";
 import { MdEdit } from "react-icons/md";
+import { API_ENDPOINTS } from "../../../config/api";
 
 type Category = {
     _id: string;
@@ -38,7 +39,7 @@ const EditCategory = () => {
     useEffect(() => {
         const fetchCategory = async () => {
             try {
-                const response = await axios.get(`http://localhost:3000/api/categories/${id}`);
+                const response = await axios.get(API_ENDPOINTS.category(id!));
                 const category = response.data.data;
                 setValue("name", category.name);
             } catch (error) {
@@ -54,7 +55,7 @@ const EditCategory = () => {
             const processedData = {
                 name: data.name
             }
-            await axios.patch(`http://localhost:3000/api/categories/${id}`, {
+            await axios.patch(API_ENDPOINTS.category(id!), {
                 ...processedData,
             });
             setSuccessMessage("Category updated successfully!");

@@ -6,6 +6,7 @@ import { joiResolver } from '@hookform/resolvers/joi';
 import Joi from 'joi';
 import { useNavigate } from 'react-router';
 import { IoIosColorPalette } from "react-icons/io";
+import { API_ENDPOINTS } from "../../config/api";
 
 type Color = {
     _id?: string;
@@ -43,7 +44,7 @@ const Color = () => {
 
           const fetchColors = async () => {
         try {
-            const response = await axios.get ("http://localhost:3000/api/colors");
+            const response = await axios.get(API_ENDPOINTS.COLORS);
             setColors(response.data.data);
         } catch (err) {
             if (err instanceof Error) {
@@ -71,7 +72,7 @@ const Color = () => {
                     setTimeout(() => setErrorMessage(""), 2000);
                     return;
                 }
-                const response = await axios.post("http://localhost:3000/api/colors", sendData);
+                const response = await axios.post(API_ENDPOINTS.COLORS, sendData);
                 setSuccessMessage("Color created successfully!");
                 setTimeout(() => {
                     setSuccessMessage("");
@@ -87,8 +88,8 @@ const Color = () => {
 
     const handleDeactivateColor = async (id: string) => {
         try {
-            await axios.patch(`http://localhost:3000/api/colors/${id}/deactivate`);
-            const res = await axios.get("http://localhost:3000/api/colors");
+            await axios.patch(API_ENDPOINTS.color(id) + '/deactivate');
+            const res = await axios.get(API_ENDPOINTS.COLORS);
             setColors(res.data.data);
             setSuccessMessage("Color deactivated successfully!");
             setTimeout(() => setSuccessMessage(""), 2000);
@@ -104,8 +105,8 @@ const Color = () => {
 
        const handleActivateColor = async (id: string) => {
         try {
-            await axios.patch(`http://localhost:3000/api/colors/${id}/activate`);
-            const res = await axios.get("http://localhost:3000/api/colors");
+            await axios.patch(API_ENDPOINTS.color(id) + '/activate');
+            const res = await axios.get(API_ENDPOINTS.COLORS);
             setColors(res.data.data);
         } catch (error) {
             console.error(error);
@@ -119,8 +120,8 @@ const Color = () => {
 
       const handleDeleteColor = async (id: string) => {
         try {
-            await axios.delete(`http://localhost:3000/api/colors/${id}`);
-            const res = await axios.get("http://localhost:3000/api/colors");
+            await axios.delete(API_ENDPOINTS.color(id));
+            const res = await axios.get(API_ENDPOINTS.COLORS);
             setColors(res.data.data);
             setSuccessMessage("Color deleted successfully!");
             setTimeout(() => setSuccessMessage(""), 2000);

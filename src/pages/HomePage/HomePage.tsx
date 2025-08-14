@@ -19,7 +19,7 @@ export const HomePage = () => {
             <div className={styles.container}>
             <header className={styles.header}>
                 <div className={styles.logoContainer}>
-                <img src="/src/public/logoChé.png" alt="Logo" className={styles.logo} />
+                <img src="/public/logoChé.png" alt="Logo" className={styles.logo} />
                 </div>
                 <button className={styles.logoutButton} onClick={() => auth?.signOut()}>Cerrar Sesión</button>
             </header>
